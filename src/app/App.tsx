@@ -19,7 +19,6 @@ export default function App() {
           <LoadBoard />
         </Suspense>
       </main>
-      <footer className="app-footer">Freightflow dispatch operations</footer>
     </div>
   );
 }

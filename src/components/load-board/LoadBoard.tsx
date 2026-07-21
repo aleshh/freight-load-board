@@ -29,18 +29,7 @@ export function LoadBoard() {
 
   return (
     <section className="load-board" aria-labelledby="load-board-heading">
-      <div className="load-board__heading">
-        <div>
-          <p className="eyebrow">Dispatch workspace</p>
-          <h1 id="load-board-heading">Freight load board</h1>
-          <p>Find and compare available freight across the network.</p>
-        </div>
-        <div className="board-summary" aria-label="Load summary">
-          <strong>{total}</strong>
-          <span>matching loads</span>
-        </div>
-      </div>
-
+      <h1 id="load-board-heading" className="sr-only">Freight load board</h1>
       <div className="load-board__panel">
         <LoadToolbar
           search={query.search}
