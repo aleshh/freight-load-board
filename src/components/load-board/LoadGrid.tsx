@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import {
   ClientSideRowModelModule,
+  CellStyleModule,
   ColumnApiModule,
   ModuleRegistry,
   RenderApiModule,
@@ -17,7 +18,13 @@ import type { Load } from '../../types/load';
 import type { LoadSort, SortableLoadField } from '../../services/loads/types';
 import { loadColumnDefinitions } from './columns';
 
-ModuleRegistry.registerModules([ClientSideRowModelModule, RowSelectionModule, ColumnApiModule, RenderApiModule]);
+ModuleRegistry.registerModules([
+  ClientSideRowModelModule,
+  CellStyleModule,
+  RowSelectionModule,
+  ColumnApiModule,
+  RenderApiModule,
+]);
 
 interface LoadGridProps {
   loads: Load[];
