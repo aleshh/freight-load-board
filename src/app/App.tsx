@@ -9,9 +9,9 @@ export default function App() {
   return (
     <div className={styles.shell}>
       <header className={styles.header}>
-        <a className={styles.brand} href="/" aria-label="Freightflow home">
+        <a className={styles.brand} href="/" aria-label="Freightboard home">
           <span className={styles.brandMark} aria-hidden="true"><Truck size={21} /></span>
-          <span className={styles.brandLabel}>Freightflow</span>
+          <span className={styles.brandLabel}>Freightboard</span>
         </a>
         <div id="load-board-toolbar" className={styles.workspace} />
         <SettingsDialog />

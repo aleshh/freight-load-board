@@ -33,7 +33,7 @@ export function SettingsDialog() {
 
           <section className={styles.section} aria-labelledby="theme-setting-heading">
             <h2 id="theme-setting-heading">Appearance</h2>
-            <p>Choose how Freightflow looks.</p>
+            <p>Choose how Freightboard looks.</p>
             <ThemeSelector />
           </section>
 
