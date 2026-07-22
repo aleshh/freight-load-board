@@ -14,6 +14,16 @@
   cursor: pointer;
 }
 
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon svg {
+  display: block;
+}
+
 .content {
   z-index: 60;
   min-width: var(--radix-select-trigger-width);

@@ -28,6 +28,6 @@ Tested with keyboard-only navigation. Not tested with a screen reader; however, 
 
 Our test suite has three layers:
 
-- Unit tests verify isolated logic such as filtering, URL state, theme behavior, and large-dataset integrity.
-- Integration tests render React components and simulate user behavior—for example pagination, settings, keyboard navigation, and filter interactions.
+- Unit tests verify isolated logic such as filtering
+- Integration tests render React components and simulate user behavior like pagination, keyboard navigation, and filter interactions
 - Playwright end-to-end tests exercise the complete application in Chromium and include automated accessibility checks with axe.

@@ -45,7 +45,7 @@ export function Select({
       >
         <SelectPrimitive.Trigger className={styles.trigger} aria-labelledby={labelId}>
           <SelectPrimitive.Value />
-          <SelectPrimitive.Icon aria-hidden="true"><ChevronDown size={16} /></SelectPrimitive.Icon>
+          <SelectPrimitive.Icon className={styles.icon} aria-hidden="true"><ChevronDown size={16} /></SelectPrimitive.Icon>
         </SelectPrimitive.Trigger>
         <SelectPrimitive.Portal>
           <SelectPrimitive.Content
