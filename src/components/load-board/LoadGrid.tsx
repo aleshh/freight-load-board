@@ -14,6 +14,8 @@ import {
 } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
+import { useTheme } from '../../app/ThemeProvider';
+import { getAgGridThemeClass } from '../../theme/theme';
 import type { Load } from '../../types/load';
 import type { LoadSort, SortableLoadField } from '../../services/loads/types';
 import { loadColumnDefinitions } from './columns';
@@ -35,6 +37,7 @@ interface LoadGridProps {
 }
 
 export function LoadGrid({ loads, sort, onSortChange, loading, announcingLabel }: LoadGridProps) {
+  const { mode } = useTheme();
   const columnDefs = useMemo<ColDef<Load>[]>(() => loadColumnDefinitions, []);
   const defaultColDef = useMemo<ColDef<Load>>(
     () => ({ sortable: true, resizable: true, suppressHeaderMenuButton: true, unSortIcon: true }),
@@ -89,7 +92,7 @@ export function LoadGrid({ loads, sort, onSortChange, loading, announcingLabel }
   };
 
   return (
-    <div className="load-grid ag-theme-quartz" aria-label={announcingLabel}>
+    <div className={`load-grid ${getAgGridThemeClass(mode)}`} aria-label={announcingLabel}>
       <AgGridReact<Load>
         rowData={loads}
         columnDefs={columnDefs}

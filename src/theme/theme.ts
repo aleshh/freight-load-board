@@ -152,6 +152,10 @@ export function resolveTheme(preference: ThemePreference, prefersDark: boolean):
   return preference === 'system' ? (prefersDark ? 'dark' : 'light') : preference;
 }
 
+export function getAgGridThemeClass(mode: ThemeMode) {
+  return mode === 'dark' ? 'ag-theme-quartz-dark' : 'ag-theme-quartz';
+}
+
 export function applyTheme(mode: ThemeMode, root = document.documentElement) {
   root.dataset.theme = mode;
   root.style.colorScheme = mode;

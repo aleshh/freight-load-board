@@ -589,7 +589,8 @@
     font-weight: 650;
   }
 
-  .load-grid {
+  .load-grid.ag-theme-quartz,
+  .load-grid.ag-theme-quartz-dark {
     flex: 1 1 auto;
     width: 100%;
     height: auto;
@@ -610,6 +611,7 @@
     --ag-input-focus-border-color: var(--color-focus);
     --ag-range-selection-border-color: var(--color-focus);
     --ag-checkbox-checked-color: var(--color-brand);
+    --ag-active-color: var(--color-brand);
     --ag-accent-color: var(--color-brand);
     --ag-wrapper-border-radius: 0;
   }

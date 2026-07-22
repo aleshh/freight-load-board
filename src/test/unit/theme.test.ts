@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { applyTheme, resolveTheme, themeColors } from '../../theme/theme';
+import { applyTheme, getAgGridThemeClass, resolveTheme, themeColors } from '../../theme/theme';
 
 describe('theme', () => {
   beforeEach(() => document.documentElement.removeAttribute('style'));
@@ -8,6 +8,11 @@ describe('theme', () => {
     expect(resolveTheme('system', true)).toBe('dark');
     expect(resolveTheme('system', false)).toBe('light');
     expect(resolveTheme('light', true)).toBe('light');
+  });
+
+  it('selects the matching AG Grid legacy theme', () => {
+    expect(getAgGridThemeClass('light')).toBe('ag-theme-quartz');
+    expect(getAgGridThemeClass('dark')).toBe('ag-theme-quartz-dark');
   });
 
   it('applies shared application and grid color tokens', () => {
