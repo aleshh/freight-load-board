@@ -64,6 +64,7 @@ export function LoadBoard() {
           filters={query.filters ?? {}}
           options={optionsQuery.data}
           onChange={setFilters}
+          onClose={() => setFiltersOpen(false)}
           open={filtersOpen}
         />
         <ActiveFilters

@@ -1,5 +1,8 @@
+import { X } from 'lucide-react';
+import { useEffect, useRef, type KeyboardEvent } from 'react';
 import type { EquipmentType, LoadStatus } from '../../../types/load';
 import type { LoadFilterOptions, LoadFilters as LoadFilterState } from '../../../services/loads/types';
+import { Button } from '../../ui/Button/Button';
 import { Input } from '../../ui/Input/Input';
 import { Select } from '../../ui/Select/Select';
 import styles from './Filters.module.css';
@@ -8,6 +11,7 @@ interface FiltersProps {
   filters: LoadFilterState;
   options?: LoadFilterOptions;
   onChange: (patch: Partial<LoadFilterState>) => void;
+  onClose: () => void;
   open: boolean;
 }
 
@@ -19,18 +23,45 @@ function optionalNumber(value: string) {
   return value === '' ? undefined : Number(value);
 }
 
-export function Filters({ filters, options, onChange, open }: FiltersProps) {
+export function Filters({ filters, options, onChange, onClose, open }: FiltersProps) {
+  const filterGridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    filterGridRef.current?.querySelector<HTMLElement>('button:not([disabled]), input:not([disabled])')?.focus();
+  }, [open]);
+
   if (!open) return null;
 
+  const close = () => {
+    document.getElementById('load-filters-trigger')?.focus();
+    onClose();
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key !== 'Escape' || event.defaultPrevented) return;
+    event.preventDefault();
+    event.stopPropagation();
+    close();
+  };
+
   return (
-    <section id="load-filters" className={styles.root} aria-labelledby="filter-heading">
+    <section
+      id="load-filters"
+      className={styles.root}
+      aria-labelledby="filter-heading"
+      onKeyDown={handleKeyDown}
+    >
       <div className={styles.heading}>
         <div>
           <h2 id="filter-heading">Refine loads</h2>
-          <p>Filters combine to narrow the results.</p>
+          <p>Changes apply automatically. Press Escape to close.</p>
         </div>
+        <Button variant="icon" aria-label="Close filters" onClick={close}>
+          <X size={18} aria-hidden="true" />
+        </Button>
       </div>
-      <div className={styles.filterGrid}>
+      <div ref={filterGridRef} className={styles.filterGrid}>
         <Select
           label="Company"
           value={filters.company}

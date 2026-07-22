@@ -48,7 +48,12 @@ export function Select({
           <SelectPrimitive.Icon aria-hidden="true"><ChevronDown size={16} /></SelectPrimitive.Icon>
         </SelectPrimitive.Trigger>
         <SelectPrimitive.Portal>
-          <SelectPrimitive.Content className={styles.content} position="popper" sideOffset={4}>
+          <SelectPrimitive.Content
+            className={styles.content}
+            position="popper"
+            sideOffset={4}
+            onEscapeKeyDown={(event) => event.stopPropagation()}
+          >
             <SelectPrimitive.Viewport>
               <SelectPrimitive.Item className={styles.item} value={ALL_VALUE}>
                 <SelectPrimitive.ItemText>{allLabel}</SelectPrimitive.ItemText>
