@@ -11,6 +11,13 @@ const numericFilterKeys = [
   'minDistance',
   'maxDistance',
 ] as const;
+const categoricalFilterNames = {
+  company: 'company',
+  origin: 'origin',
+  destination: 'destination',
+  equipmentType: 'equipment',
+  status: 'status',
+} as const;
 
 function positiveNumber(value: string | null, fallback: number) {
   const number = Number(value);
@@ -28,13 +35,18 @@ function parseSort(value: string | null): LoadSort[] | undefined {
   return result.length ? result : undefined;
 }
 
-function parseQuery(searchParams: URLSearchParams): LoadQuery {
+function values(searchParams: URLSearchParams, name: string) {
+  const result = searchParams.getAll(name).filter(Boolean);
+  return result.length ? result : undefined;
+}
+
+export function parseLoadQuery(searchParams: URLSearchParams): LoadQuery {
   const filters: LoadFilters = {
-    company: searchParams.get('company') || undefined,
-    origin: searchParams.get('origin') || undefined,
-    destination: searchParams.get('destination') || undefined,
-    equipmentType: (searchParams.get('equipment') as EquipmentType | null) || undefined,
-    status: (searchParams.get('status') as LoadStatus | null) || undefined,
+    company: values(searchParams, 'company'),
+    origin: values(searchParams, 'origin'),
+    destination: values(searchParams, 'destination'),
+    equipmentType: values(searchParams, 'equipment') as EquipmentType[] | undefined,
+    status: values(searchParams, 'status') as LoadStatus[] | undefined,
     date: searchParams.get('date') || undefined,
   };
 
@@ -52,7 +64,7 @@ function parseQuery(searchParams: URLSearchParams): LoadQuery {
   };
 }
 
-function toSearchParams(query: LoadQuery) {
+export function toLoadSearchParams(query: LoadQuery) {
   const params = new URLSearchParams();
   if (query.search) params.set('q', query.search);
   if (query.sort?.length) params.set('sort', query.sort.map(({ field, direction }) => `${field}:${direction}`).join(','));
@@ -60,33 +72,28 @@ function toSearchParams(query: LoadQuery) {
   if (query.pageSize !== DEFAULT_PAGE_SIZE) params.set('pageSize', String(query.pageSize));
 
   const filters = query.filters ?? {};
-  const names: [keyof LoadFilters, string][] = [
-    ['company', 'company'],
-    ['origin', 'origin'],
-    ['destination', 'destination'],
-    ['equipmentType', 'equipment'],
-    ['status', 'status'],
-    ['date', 'date'],
-    ...numericFilterKeys.map((key) => [key, key] as [keyof LoadFilters, string]),
-  ];
-  names.forEach(([key, name]) => {
+  Object.entries(categoricalFilterNames).forEach(([key, name]) => {
+    filters[key as keyof typeof categoricalFilterNames]?.forEach((value) => params.append(name, value));
+  });
+  if (filters.date) params.set('date', filters.date);
+  numericFilterKeys.forEach((key) => {
     const value = filters[key];
-    if (value !== undefined && value !== '') params.set(name, String(value));
+    if (value !== undefined) params.set(key, String(value));
   });
   return params;
 }
 
 export function useLoadQueryState() {
-  const [query, setQuery] = useState<LoadQuery>(() => parseQuery(new URLSearchParams(window.location.search)));
+  const [query, setQuery] = useState<LoadQuery>(() => parseLoadQuery(new URLSearchParams(window.location.search)));
 
   useEffect(() => {
-    const handlePopState = () => setQuery(parseQuery(new URLSearchParams(window.location.search)));
+    const handlePopState = () => setQuery(parseLoadQuery(new URLSearchParams(window.location.search)));
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   useEffect(() => {
-    const params = toSearchParams(query);
+    const params = toLoadSearchParams(query);
     const nextUrl = `${window.location.pathname}${params.size ? `?${params}` : ''}${window.location.hash}`;
     window.history.replaceState(null, '', nextUrl);
   }, [query]);
@@ -98,7 +105,10 @@ export function useLoadQueryState() {
   const setFilters = useCallback((patch: Partial<LoadFilters>) => {
     setQuery((current) => {
       const filters = { ...current.filters, ...patch };
-      Object.keys(filters).forEach((key) => filters[key as keyof LoadFilters] === undefined && delete filters[key as keyof LoadFilters]);
+      Object.keys(filters).forEach((key) => {
+        const value = filters[key as keyof LoadFilters];
+        if (value === undefined || (Array.isArray(value) && value.length === 0)) delete filters[key as keyof LoadFilters];
+      });
       return { ...current, filters, page: 1 };
     });
   }, []);
@@ -120,7 +130,7 @@ export function useLoadQueryState() {
   }, []);
 
   const activeFilterCount = useMemo(
-    () => Object.values(query.filters ?? {}).filter((value) => value !== undefined && value !== '').length + (query.search ? 1 : 0),
+    () => Object.values(query.filters ?? {}).filter((value) => value !== undefined && (!Array.isArray(value) || value.length > 0)).length + (query.search ? 1 : 0),
     [query.filters, query.search],
   );
 

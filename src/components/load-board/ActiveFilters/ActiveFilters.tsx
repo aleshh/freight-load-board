@@ -28,7 +28,8 @@ const labels: Record<keyof LoadFilters, string> = {
   maxDistance: 'Max distance',
 };
 
-function displayValue(key: keyof LoadFilters, value: string | number) {
+function displayValue(key: keyof LoadFilters, value: string | string[] | number) {
+  if (Array.isArray(value)) return value.join(', ');
   if (key === 'minPrice' || key === 'maxPrice') return currencyFormatter.format(Number(value));
   if (key === 'minWeight' || key === 'maxWeight') return `${numberFormatter.format(Number(value))} lb`;
   if (key === 'minDistance' || key === 'maxDistance') return `${numberFormatter.format(Number(value))} mi`;
@@ -36,7 +37,11 @@ function displayValue(key: keyof LoadFilters, value: string | number) {
 }
 
 export function ActiveFilters({ search, filters, onClearSearch, onClearFilter, onClearAll }: ActiveFiltersProps) {
-  const active = Object.entries(filters).filter((entry): entry is [keyof LoadFilters, string | number] => entry[1] !== undefined && entry[1] !== '');
+  const active = (Object.entries(filters) as [keyof LoadFilters, string | string[] | number | undefined][])
+    .filter((entry): entry is [keyof LoadFilters, string | string[] | number] => {
+      const value = entry[1];
+      return value !== undefined && value !== '' && (!Array.isArray(value) || value.length > 0);
+    });
   const chips = [
     ...(search
       ? [{ key: 'search', label: `Search: “${search}”`, removeLabel: `Remove search filter: ${search}`, onRemove: onClearSearch }]

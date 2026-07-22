@@ -29,7 +29,7 @@ describe('Filters', () => {
 
     const trigger = screen.getByRole('button', { name: 'Filters' });
     await user.click(trigger);
-    expect(screen.getByRole('combobox', { name: 'Company' })).toHaveFocus();
+    expect(screen.getByRole('button', { name: 'Company' })).toHaveFocus();
 
     await user.keyboard('{Escape}');
     expect(screen.queryByRole('region', { name: 'Refine loads' })).not.toBeInTheDocument();

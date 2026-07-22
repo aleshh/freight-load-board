@@ -8,11 +8,11 @@ export interface LoadSort {
 }
 
 export interface LoadFilters {
-  company?: string;
-  origin?: string;
-  destination?: string;
-  equipmentType?: EquipmentType;
-  status?: LoadStatus;
+  company?: string[];
+  origin?: string[];
+  destination?: string[];
+  equipmentType?: EquipmentType[];
+  status?: LoadStatus[];
   date?: string;
   minWeight?: number;
   maxWeight?: number;
@@ -39,6 +39,6 @@ export interface LoadFilterOptions {
   companies: string[];
   origins: string[];
   destinations: string[];
-  equipmentTypes: string[];
-  statuses: string[];
+  equipmentTypes: EquipmentType[];
+  statuses: LoadStatus[];
 }

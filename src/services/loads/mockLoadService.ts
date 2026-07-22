@@ -31,11 +31,11 @@ function includesSearch(load: Load, search?: string) {
 
 function matchesFilters(load: Load, filters: LoadFilters = {}) {
   return (
-    (!filters.company || load.company === filters.company) &&
-    (!filters.origin || load.origin === filters.origin) &&
-    (!filters.destination || load.destination === filters.destination) &&
-    (!filters.equipmentType || load.equipmentType === filters.equipmentType) &&
-    (!filters.status || load.status === filters.status) &&
+    (!filters.company?.length || filters.company.includes(load.company)) &&
+    (!filters.origin?.length || filters.origin.includes(load.origin)) &&
+    (!filters.destination?.length || filters.destination.includes(load.destination)) &&
+    (!filters.equipmentType?.length || filters.equipmentType.includes(load.equipmentType)) &&
+    (!filters.status?.length || filters.status.includes(load.status)) &&
     (!filters.date || load.date === filters.date) &&
     (filters.minWeight === undefined || load.weight >= filters.minWeight) &&
     (filters.maxWeight === undefined || load.weight <= filters.maxWeight) &&
@@ -71,7 +71,7 @@ export function queryLoads(data: Load[], query: LoadQuery): LoadResult {
   return { items: sorted.slice(start, start + query.pageSize), total: sorted.length };
 }
 
-function uniqueSorted(values: string[]) {
+function uniqueSorted<T extends string>(values: T[]): T[] {
   return [...new Set(values)].sort((a, b) => a.localeCompare(b));
 }
 

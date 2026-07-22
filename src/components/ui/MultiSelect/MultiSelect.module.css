@@ -1,0 +1,145 @@
+.root {
+  position: relative;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  width: 100%;
+  height: var(--control-height);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-control);
+  padding: 0 var(--space-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.summary {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.panel {
+  position: fixed;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-control);
+  padding: var(--space-md);
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-popover);
+}
+
+.panelHeader,
+.actions,
+.search,
+.option {
+  display: flex;
+  align-items: center;
+}
+
+.panelHeader {
+  justify-content: space-between;
+  gap: var(--space-md);
+  min-height: var(--control-height);
+}
+
+.actions {
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin: var(--space-xs) 0;
+}
+
+.search {
+  gap: var(--space-sm);
+  height: var(--control-height);
+  margin: var(--space-sm) 0;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-control);
+  padding: 0 var(--space-md);
+  color: var(--color-text-muted);
+}
+
+.search:focus-within {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--color-text);
+}
+
+.options {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: min(17rem, 45vh);
+  overflow-y: auto;
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+.option {
+  position: relative;
+  gap: var(--space-sm);
+  min-height: var(--control-height);
+  padding: var(--space-sm);
+  border-bottom: var(--border-width) solid var(--color-border);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.option:hover {
+  background: var(--color-hover);
+}
+
+.option input {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0;
+  opacity: 0;
+  position: absolute;
+}
+
+.check {
+  order: -1;
+  flex: 0 0 auto;
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  padding: 1px;
+  color: transparent;
+}
+
+.option:has(input:checked) {
+  background: var(--color-selected);
+  font-weight: 650;
+}
+
+.option:has(input:checked) .check {
+  border-color: var(--color-brand);
+  background: var(--color-brand);
+  color: var(--color-brand-text);
+}
+
+.option:has(input:focus-visible) {
+  outline: 3px solid var(--color-focus);
+  outline-offset: -3px;
+}
+
+.empty {
+  padding: var(--space-lg) var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}

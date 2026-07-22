@@ -16,11 +16,20 @@ describe('queryLoads', () => {
 
   it('combines field and range filters', () => {
     const result = queryLoads(loads, {
-      filters: { origin: 'Denver, CO', status: 'Available', minWeight: 40000 },
+      filters: { origin: ['Denver, CO'], status: ['Available'], minWeight: 40000 },
       page: 1,
       pageSize: 25,
     });
     expect(result.items.map((load) => load.id)).toEqual(['LD-2']);
+  });
+
+  it('ORs values within a categorical filter and ANDs across filter categories', () => {
+    const result = queryLoads(loads, {
+      filters: { status: ['Available', 'Pending'], equipmentType: ['Reefer', 'Flatbed'] },
+      page: 1,
+      pageSize: 25,
+    });
+    expect(result.items.map((load) => load.id)).toEqual(['LD-1', 'LD-3']);
   });
 
   it('supports multi-column server-shaped sorting', () => {

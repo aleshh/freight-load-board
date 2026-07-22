@@ -12,8 +12,9 @@ test('searches, filters, sorts, and clears the load board', async ({ page }) => 
   await expect(page.getByText('7 freight loads found · Showing 1–7')).toBeVisible();
 
   await page.getByRole('button', { name: /Filters/ }).click();
-  await page.getByRole('combobox', { name: 'Status' }).click();
-  await page.getByRole('option', { name: 'Available' }).click();
+  await page.getByRole('button', { name: 'Status' }).click();
+  await page.getByRole('checkbox', { name: 'Available' }).click();
+  await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Remove Status filter: Available' })).toBeVisible();
 
   await page.getByRole('columnheader', { name: /Price/ }).click();

@@ -13,7 +13,7 @@ describe('ActiveFilters', () => {
     render(
       <ActiveFilters
         search="Denver"
-        filters={{ status: 'Available', minPrice: 1200 }}
+        filters={{ status: ['Available', 'Pending'], minPrice: 1200 }}
         onClearSearch={vi.fn()}
         onClearFilter={onClearFilter}
         onClearAll={onClearAll}
@@ -21,9 +21,9 @@ describe('ActiveFilters', () => {
     );
 
     expect(screen.getByRole('group', { name: 'Active search and filters' })).toBeVisible();
-    expect(screen.getByRole('button', { name: 'Remove Status filter: Available' })).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Remove Status filter: Available, Pending' })).toBeVisible();
     expect(screen.getByRole('button', { name: 'Remove Min price filter: $1,200' })).toBeVisible();
-    await user.click(screen.getByRole('button', { name: 'Remove Status filter: Available' }));
+    await user.click(screen.getByRole('button', { name: 'Remove Status filter: Available, Pending' }));
     expect(onClearFilter).toHaveBeenCalledWith('status');
     await user.click(screen.getByRole('button', { name: 'Clear all' }));
     expect(onClearAll).toHaveBeenCalledOnce();
@@ -33,7 +33,7 @@ describe('ActiveFilters', () => {
     const user = userEvent.setup();
 
     function Harness() {
-      const [filters, setFilters] = useState<LoadFilters>({ status: 'Available', minPrice: 1200 });
+      const [filters, setFilters] = useState<LoadFilters>({ status: ['Available'], minPrice: 1200 });
       return (
         <>
           <button id="load-filters-trigger">Filters</button>

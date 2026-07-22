@@ -49,7 +49,7 @@ pnpm exec playwright install chromium
 
 - Press `Ctrl+K` or `⌘K` to focus global search.
 - Tab to filters, paging, and theme controls; Enter or Space activates buttons.
-- In a select, use arrow keys to move and Enter to select.
+- In a single select, use arrow keys to move and Enter to select. Multi-select filters use standard checkbox controls and Escape closes their popover.
 - In the grid, use arrow keys to move between headers and cells. Enter sorts a focused sortable header.
 - A skip link appears when focused at the beginning of the page.
 - Open Settings from the gear button to choose light, dark, or system theme and enable the 10,000-record dataset.

@@ -1,10 +1,9 @@
 import { X } from 'lucide-react';
 import { useEffect, useRef, type KeyboardEvent } from 'react';
-import type { EquipmentType, LoadStatus } from '../../../types/load';
 import type { LoadFilterOptions, LoadFilters as LoadFilterState } from '../../../services/loads/types';
 import { Button } from '../../ui/Button/Button';
 import { Input } from '../../ui/Input/Input';
-import { Select } from '../../ui/Select/Select';
+import { MultiSelect } from '../../ui/MultiSelect/MultiSelect';
 import styles from './Filters.module.css';
 
 interface FiltersProps {
@@ -15,7 +14,7 @@ interface FiltersProps {
   open: boolean;
 }
 
-function toOptions(values: string[] = []) {
+function toOptions<T extends string>(values: T[] = []) {
   return values.map((value) => ({ value, label: value }));
 }
 
@@ -62,39 +61,42 @@ export function Filters({ filters, options, onChange, onClose, open }: FiltersPr
         </Button>
       </div>
       <div ref={filterGridRef} className={styles.filterGrid}>
-        <Select
+        <MultiSelect
           label="Company"
-          value={filters.company}
+          values={filters.company}
           options={toOptions(options?.companies)}
-          onValueChange={(company) => onChange({ company })}
+          onValuesChange={(company) => onChange({ company })}
           allLabel="All companies"
+          searchable
         />
-        <Select
+        <MultiSelect
           label="Origin"
-          value={filters.origin}
+          values={filters.origin}
           options={toOptions(options?.origins)}
-          onValueChange={(origin) => onChange({ origin })}
+          onValuesChange={(origin) => onChange({ origin })}
           allLabel="All origins"
+          searchable
         />
-        <Select
+        <MultiSelect
           label="Destination"
-          value={filters.destination}
+          values={filters.destination}
           options={toOptions(options?.destinations)}
-          onValueChange={(destination) => onChange({ destination })}
+          onValuesChange={(destination) => onChange({ destination })}
           allLabel="All destinations"
+          searchable
         />
-        <Select
+        <MultiSelect
           label="Equipment"
-          value={filters.equipmentType}
+          values={filters.equipmentType}
           options={toOptions(options?.equipmentTypes)}
-          onValueChange={(equipmentType) => onChange({ equipmentType: equipmentType as EquipmentType | undefined })}
+          onValuesChange={(equipmentType) => onChange({ equipmentType })}
           allLabel="All equipment"
         />
-        <Select
+        <MultiSelect
           label="Status"
-          value={filters.status}
+          values={filters.status}
           options={toOptions(options?.statuses)}
-          onValueChange={(status) => onChange({ status: status as LoadStatus | undefined })}
+          onValuesChange={(status) => onChange({ status })}
           allLabel="All statuses"
         />
         <Input

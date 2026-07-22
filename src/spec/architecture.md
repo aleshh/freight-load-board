@@ -6,11 +6,11 @@ React and TypeScript provide composable UI boundaries and compile-time contracts
 
 AG Grid Community supplies row virtualization, stable keyboard navigation, accessible grid semantics, column resizing, and sort interactions. It is used as the rendering engine rather than replaced by a custom table. The application retains external, server-shaped page and sort state so the mock service can later be replaced by an API.
 
-The UI layer follows the shadcn/ui model: code-owned application components built over accessible primitives. Radix Select provides the complex select behavior, while `Button`, `Input`, `Select`, and `Badge` centralize variants and interaction states. This prevents filter and toolbar features from repeating visual policy.
+The UI layer follows the shadcn/ui model: code-owned application components built over accessible primitives. Radix Select provides single-select behavior, while the checkbox-based `MultiSelect` supports categorical filters. `Button`, `Input`, `Select`, `MultiSelect`, and `Badge` centralize variants and interaction states so features do not repeat visual policy.
 
 Each component has its own directory containing its implementation and colocated CSS Module. `src/index.css` is intentionally limited to document defaults, the screen-reader and skip-link utilities, the universal focus-visible policy, and reduced-motion handling. Shared field structure has a small shared module; all other selectors are owned by the component that renders them. AG Grid selectors are isolated in `Grid.module.css` with explicit `:global(...)` escapes.
 
-TanStack Query owns asynchronous load data, request cancellation, caching, retry behavior, and transitional page data. Local React state is limited to transient UI, such as whether the filter panel is open. Search, filters, sorting, page, and page size are serializable and synchronized with the URL.
+TanStack Query owns asynchronous load data, request cancellation, caching, retry behavior, and transitional page data. Local React state is limited to transient UI, such as whether the filter panel is open. Search, filters, sorting, page, and page size are serializable and synchronized with the URL. Categorical selections use repeated URL parameters; values within one category are ORed while separate filter categories are ANDed.
 
 ## Centralized theme
 
@@ -28,7 +28,7 @@ Search input is debounced. TanStack Query cancels superseded requests and keeps 
 
 ## Accessibility
 
-The application uses a skip link, native labels, named icon buttons, visible focus rings, live result announcements, non-color status text, keyboard shortcuts, and reduced-motion support. Radix manages select focus and keyboard behavior. AG Grid retains its own roles and keyboard model. Error and loading states use live semantics, and URL-driven state makes the current view recoverable.
+The application uses a skip link, native labels and checkboxes, named icon buttons, visible focus rings, live result announcements, non-color status text, keyboard shortcuts, and reduced-motion support. Radix manages single-select focus and keyboard behavior; multi-select popovers support initial focus, Escape dismissal, and focus restoration. AG Grid retains its own roles and keyboard model. Error and loading states use live semantics, and URL-driven state makes the current view recoverable.
 
 Automated coverage includes accessible-name component tests and an axe Playwright check. Manual checks remain required with keyboard-only navigation, VoiceOver on macOS, browser zoom at 200%, both themes, reduced motion, and loading/error/empty states.
 
@@ -37,5 +37,5 @@ Automated coverage includes accessible-name component tests and an axe Playwrigh
 - Mock data is intentionally small; production should use AG Grid's server-side or infinite row model backed by indexed API queries.
 - URL updates use replacement history to avoid filling browser history during rapid filter changes. Product research may justify explicit “Apply” actions and navigable history entries.
 - Load assignment is out of scope. A future detail dialog should retain focus restoration and use optimistic mutation handling.
-- Locale, units, time zones, saved views, column preferences, and authorization require product decisions before production rollout.
+- Locale, units, time zones, saved views, persisted column layouts, and authorization require product decisions before production rollout.
 - Automated accessibility tests cannot validate screen-reader usability or every contrast state; manual validation is part of release readiness.
