@@ -5,29 +5,29 @@ An accessible dispatcher workspace for searching, filtering, sorting, and paging
 ## Prerequisites
 
 - Node.js 20 or newer
-- pnpm 10 or newer (`corepack enable` can provide pnpm)
+- npm 10 or newer (included with current Node.js releases)
 
 ## Setup and commands
 
 ```bash
-pnpm install
-pnpm dev
+npm install
+npm run dev
 ```
 
 Open the local URL printed by Vite.
 
 ```bash
-pnpm build          # type-check and create a production build
-pnpm preview        # serve the production build locally
-pnpm test           # run unit and component tests
-pnpm test:watch     # run tests interactively
-pnpm test:e2e       # build, launch, and run Playwright + axe tests
+npm run build          # type-check and create a production build
+npm run preview        # serve the production build locally
+npm test               # run unit and component tests
+npm run test:watch     # run tests interactively
+npm run test:e2e       # build, launch, and run Playwright + axe tests
 ```
 
 Install the Playwright browser once before the first end-to-end run:
 
 ```bash
-pnpm exec playwright install chromium
+npx playwright install chromium
 ```
 
 ## Project structure

@@ -14,4 +14,12 @@ In order to make our theme reusable and portable, we've expressed it in a typesc
 
 ## Notes
 
+### Performance
+
 Since performance is a priority with this system, I wanted to see how it functioned under load. So, we load the default 48 records of sample data by default, but also provide the option of loading a 10,000-record data set. Doing this proves that (1) the application remains performant, (2) loading all data and manipulating it in the frontend is a reasonable choice for records of this size.
+
+### Accessibility
+
+We have the proper semantic markup, including labels, fieldsets, and live announcements for results counts, page changes, etc.
+
+Tested with keyboard-only navigation. Not tested with a screen reader; however, we have provided screen-reader landmarks and other features to make the application navigable.
