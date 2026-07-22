@@ -78,21 +78,26 @@
     border: 0;
   }
 
-  .skip-link {
+  .skip-links {
     position: fixed;
     top: var(--space-sm);
     left: var(--space-sm);
     z-index: 100;
+    display: flex;
+    gap: var(--space-sm);
+    transform: translateY(-160%);
+  }
+
+  .skip-link {
     padding: var(--space-sm) var(--space-lg);
     border-radius: var(--radius-control);
     background: var(--color-brand);
     color: var(--color-brand-text);
     font-weight: 700;
     text-decoration: none;
-    transform: translateY(-160%);
   }
 
-  .skip-link:focus {
+  .skip-links:focus-within {
     transform: translateY(0);
   }
 }

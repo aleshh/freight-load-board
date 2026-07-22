@@ -19,7 +19,7 @@ export function Pagination({ page, pageSize, total, onPageChange, onPageSizeChan
   const last = Math.min(page * pageSize, total);
 
   return (
-    <nav className={styles.root} aria-label="Load results pagination">
+    <nav id="load-pagination" className={styles.root} aria-label="Load results pagination" tabIndex={-1}>
       <p className={styles.summary}>
         {numberWithCommas(total)} freight {total === 1 ? 'load' : 'loads'} found · Showing {numberWithCommas(first)}–{numberWithCommas(last)}
       </p>
@@ -32,7 +32,9 @@ export function Pagination({ page, pageSize, total, onPageChange, onPageSizeChan
           layout="inline"
           className={styles.pageSize}
         />
-        <span className={styles.page}>Page {page} of {pageCount}</span>
+        <span className={styles.page} role="status" aria-live="polite" aria-atomic="true">
+          Page {page} of {pageCount}
+        </span>
         <Button variant="icon" aria-label="Previous page" disabled={page <= 1} onClick={() => onPageChange(page - 1)}>
           <ChevronLeft size={18} aria-hidden="true" />
         </Button>

@@ -9,6 +9,11 @@
   background: var(--color-surface);
 }
 
+.root:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: -3px;
+}
+
 .summary,
 .page {
   color: var(--color-text-muted);
