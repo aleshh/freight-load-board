@@ -1,7 +1,8 @@
 import type { ColDef } from 'ag-grid-community';
 import { Badge, type BadgeTone } from '../../ui/Badge/Badge';
 import { currencyFormatter, decimalCurrencyFormatter, formatDate, numberFormatter } from '../../../lib/formatters';
-import { getRatePerMile, type Load, type LoadStatus } from '../../../types/load';
+import { getRatePerMile, type EquipmentType, type Load, type LoadStatus } from '../../../types/load';
+import { EquipmentCell } from '../EquipmentCell/EquipmentCell';
 
 const statusTones: Record<LoadStatus, BadgeTone> = {
   Available: 'success',
@@ -23,7 +24,13 @@ export const loadColumnDefinitions: ColDef<Load>[] = [
     type: 'numericColumn',
     valueFormatter: ({ value }) => `${numberFormatter.format(value)} lb`,
   },
-  { field: 'equipmentType', headerName: 'Equipment', flex: 1, minWidth: 125 },
+  {
+    field: 'equipmentType',
+    headerName: 'Equipment',
+    flex: 1,
+    minWidth: 135,
+    cellRenderer: ({ value }: { value: EquipmentType }) => <EquipmentCell type={value} />,
+  },
   {
     field: 'date',
     headerName: 'Pickup date',
