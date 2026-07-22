@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import { useDatasetPreference } from '../../../app/DatasetProvider';
 import { useLoadFilterOptions, useLoads } from '../../../hooks/useLoads';
 import { useLoadQueryState } from '../../../hooks/useLoadQueryState';
+import { numberFormatter } from '../../../lib/formatters';
 import type { LoadFilters as LoadFilterState } from '../../../services/loads/types';
 import { Button } from '../../ui/Button/Button';
 import { ActiveFilters } from '../ActiveFilters/ActiveFilters';
@@ -22,9 +23,14 @@ export function LoadBoard() {
   const optionsQuery = useLoadFilterOptions(largeDataset);
   const total = loadsQuery.data?.total ?? 0;
   const pageCount = Math.max(1, Math.ceil(total / query.pageSize));
-  const resultLabel = loadsQuery.isFetching
+  const first = total === 0 ? 0 : (query.page - 1) * query.pageSize + 1;
+  const last = Math.min(query.page * query.pageSize, total);
+  const resultSummary = `${numberFormatter.format(total)} freight ${total === 1 ? 'load' : 'loads'} found.`;
+  const resultAnnouncement = loadsQuery.isFetching
     ? 'Updating freight loads.'
-    : `${total} freight ${total === 1 ? 'load' : 'loads'} found.`;
+    : `${resultSummary} Page ${query.page} of ${pageCount}. ${total === 0
+      ? 'No loads to show.'
+      : `Showing ${numberFormatter.format(first)} through ${numberFormatter.format(last)}.`}`;
 
   useEffect(() => {
     if (loadsQuery.data && query.page > pageCount) setPage(pageCount);
@@ -68,7 +74,7 @@ export function LoadBoard() {
           onClearAll={clearAll}
         />
 
-        <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{resultLabel}</p>
+        <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{resultAnnouncement}</p>
 
         {loadsQuery.isError ? (
           <div className={styles.error} role="alert">
@@ -88,7 +94,7 @@ export function LoadBoard() {
               sort={query.sort}
               onSortChange={setSort}
               loading={loadsQuery.isLoading}
-              announcingLabel={`Freight loads data grid. ${resultLabel}`}
+              announcingLabel={`Freight loads data grid. ${resultSummary}`}
             />
             <Pagination
               page={query.page}

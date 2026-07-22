@@ -106,7 +106,7 @@ export function Grid({ loads, sort, onSortChange, loading, announcingLabel }: Gr
         rowSelection={{ mode: 'singleRow', enableClickSelection: true }}
         suppressCellFocus={false}
         ensureDomOrder
-        overlayLoadingTemplate={`<span class="${styles.overlay}" role="status">Loading freight loads…</span>`}
+        overlayLoadingTemplate={`<span class="${styles.overlay}">Loading freight loads…</span>`}
         overlayNoRowsTemplate={`<span class="${styles.overlay}">No freight loads match the current query.</span>`}
         theme="legacy"
       />

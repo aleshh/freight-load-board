@@ -32,9 +32,7 @@ export function Pagination({ page, pageSize, total, onPageChange, onPageSizeChan
           layout="inline"
           className={styles.pageSize}
         />
-        <span className={styles.page} role="status" aria-live="polite" aria-atomic="true">
-          Page {page} of {pageCount}
-        </span>
+        <span className={styles.page}>Page {page} of {pageCount}</span>
         <Button variant="icon" aria-label="Previous page" disabled={page <= 1} onClick={() => onPageChange(page - 1)}>
           <ChevronLeft size={18} aria-hidden="true" />
         </Button>

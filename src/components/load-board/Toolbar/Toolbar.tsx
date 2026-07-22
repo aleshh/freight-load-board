@@ -55,6 +55,7 @@ export function Toolbar({
         <span className={styles.shortcut} aria-hidden="true">⌘ K</span>
       </div>
       <Button
+        id="load-filters-trigger"
         variant="secondary"
         aria-label={`Filters${activeFilterCount ? `, ${activeFilterCount} active` : ''}`}
         aria-expanded={filtersOpen}
