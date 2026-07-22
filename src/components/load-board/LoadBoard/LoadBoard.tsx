@@ -9,13 +9,15 @@ import type { LoadFilters as LoadFilterState } from '../../../services/loads/typ
 import { Button } from '../../ui/Button/Button';
 import { ActiveFilters } from '../ActiveFilters/ActiveFilters';
 import { Filters } from '../Filters/Filters';
-import { Grid } from '../Grid/Grid';
+import { Grid, type GridColumnState, type GridHandle } from '../Grid/Grid';
 import { Pagination } from '../Pagination/Pagination';
 import { Toolbar } from '../Toolbar/Toolbar';
 import styles from './LoadBoard.module.css';
 
 export function LoadBoard() {
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [columns, setColumns] = useState<GridColumnState[]>([]);
+  const gridRef = useRef<GridHandle>(null);
   const { largeDataset } = useDatasetPreference();
   const { query, setSearch, setFilters, clearAll, setSort, setPage, setPageSize, activeFilterCount } = useLoadQueryState();
   const previousDataset = useRef(largeDataset);
@@ -52,6 +54,10 @@ export function LoadBoard() {
       filtersOpen={filtersOpen}
       onFiltersOpenChange={setFiltersOpen}
       activeFilterCount={activeFilterCount}
+      columns={columns}
+      onColumnVisibilityChange={(id, visible) => gridRef.current?.setColumnVisible(id, visible)}
+      onColumnPinnedChange={(id, pinned) => gridRef.current?.setColumnPinned(id, pinned)}
+      onResetColumns={() => gridRef.current?.resetColumns()}
     />
   );
 
@@ -91,11 +97,13 @@ export function LoadBoard() {
         ) : (
           <>
             <Grid
+              ref={gridRef}
               loads={loadsQuery.data?.items ?? []}
               sort={query.sort}
               onSortChange={setSort}
               loading={loadsQuery.isLoading}
               announcingLabel={`Freight loads data grid. ${resultSummary}`}
+              onColumnStateChange={setColumns}
             />
             <Pagination
               page={query.page}

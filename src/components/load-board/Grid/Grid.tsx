@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import {
   ClientSideRowModelModule,
@@ -7,6 +7,9 @@ import {
   ModuleRegistry,
   RenderApiModule,
   type ColDef,
+  type ColumnMovedEvent,
+  type ColumnPinnedEvent,
+  type ColumnVisibleEvent,
   type GridApi,
   type GridReadyEvent,
   type SortChangedEvent,
@@ -33,9 +36,26 @@ interface GridProps {
   onSortChange: (sort?: LoadSort[]) => void;
   loading: boolean;
   announcingLabel: string;
+  onColumnStateChange: (columns: GridColumnState[]) => void;
 }
 
-export function Grid({ loads, sort, onSortChange, loading, announcingLabel }: GridProps) {
+export interface GridColumnState {
+  id: string;
+  label: string;
+  visible: boolean;
+  pinned: boolean;
+}
+
+export interface GridHandle {
+  setColumnVisible: (id: string, visible: boolean) => void;
+  setColumnPinned: (id: string, pinned: boolean) => void;
+  resetColumns: () => void;
+}
+
+export const Grid = forwardRef<GridHandle, GridProps>(function Grid(
+  { loads, sort, onSortChange, loading, announcingLabel, onColumnStateChange },
+  ref,
+) {
   const { mode } = useTheme();
   const columnDefs = useMemo<ColDef<Load>[]>(() => loadColumnDefinitions, []);
   const defaultColDef = useMemo<ColDef<Load>>(
@@ -44,6 +64,20 @@ export function Grid({ loads, sort, onSortChange, loading, announcingLabel }: Gr
   );
   const [api, setApi] = useState<GridApi<Load> | null>(null);
   const applyingState = useRef(false);
+
+  const publishColumnState = useCallback(
+    (gridApi: GridApi<Load>) => {
+      onColumnStateChange(
+        gridApi.getColumnState().map((column) => ({
+          id: column.colId,
+          label: gridApi.getColumnDef(column.colId)?.headerName ?? column.colId,
+          visible: !column.hide,
+          pinned: Boolean(column.pinned),
+        })),
+      );
+    },
+    [onColumnStateChange],
+  );
 
   const applySortState = useCallback(
     (gridApi: GridApi<Load>) => {
@@ -69,10 +103,36 @@ export function Grid({ loads, sort, onSortChange, loading, announcingLabel }: Gr
     api?.setGridAriaProperty('label', announcingLabel);
   }, [api, announcingLabel]);
 
+  useImperativeHandle(ref, () => ({
+    setColumnVisible(id, visible) {
+      if (!api) return;
+      api.applyColumnState({ state: [{ colId: id, hide: !visible, ...(visible ? {} : { pinned: null }) }] });
+      publishColumnState(api);
+    },
+    setColumnPinned(id, pinned) {
+      if (!api) return;
+      api.setColumnsPinned([id], pinned ? 'left' : null);
+      publishColumnState(api);
+    },
+    resetColumns() {
+      if (!api) return;
+      applyingState.current = true;
+      api.resetColumnState();
+      applySortState(api);
+      applyingState.current = false;
+      publishColumnState(api);
+    },
+  }), [api, applySortState, publishColumnState]);
+
   const onGridReady = ({ api: gridApi }: GridReadyEvent<Load>) => {
     gridApi.setGridAriaProperty('label', announcingLabel);
     setApi(gridApi);
     applySortState(gridApi);
+    publishColumnState(gridApi);
+  };
+
+  const onColumnsChanged = ({ api: gridApi }: ColumnVisibleEvent<Load> | ColumnPinnedEvent<Load> | ColumnMovedEvent<Load>) => {
+    publishColumnState(gridApi);
   };
 
   const onSortChanged = ({ api: gridApi }: SortChangedEvent<Load>) => {
@@ -99,6 +159,9 @@ export function Grid({ loads, sort, onSortChange, loading, announcingLabel }: Gr
         getRowId={({ data }) => data.id}
         onGridReady={onGridReady}
         onSortChanged={onSortChanged}
+        onColumnVisible={onColumnsChanged}
+        onColumnPinned={onColumnsChanged}
+        onColumnMoved={onColumnsChanged}
         loading={loading}
         animateRows={false}
         suppressCellFocus={false}
@@ -109,4 +172,6 @@ export function Grid({ loads, sort, onSortChange, loading, announcingLabel }: Gr
       />
     </div>
   );
-}
+});
+
+Grid.displayName = 'Grid';

@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useDebouncedValue } from '../../../hooks/useDebouncedValue';
 import { Button } from '../../ui/Button/Button';
 import { Input } from '../../ui/Input/Input';
+import { ColumnPicker } from '../ColumnPicker/ColumnPicker';
+import type { GridColumnState } from '../Grid/Grid';
 import styles from './Toolbar.module.css';
 
 interface ToolbarProps {
@@ -11,6 +13,10 @@ interface ToolbarProps {
   filtersOpen: boolean;
   onFiltersOpenChange: (open: boolean) => void;
   activeFilterCount: number;
+  columns: GridColumnState[];
+  onColumnVisibilityChange: (id: string, visible: boolean) => void;
+  onColumnPinnedChange: (id: string, pinned: boolean) => void;
+  onResetColumns: () => void;
 }
 
 export function Toolbar({
@@ -19,6 +25,10 @@ export function Toolbar({
   filtersOpen,
   onFiltersOpenChange,
   activeFilterCount,
+  columns,
+  onColumnVisibilityChange,
+  onColumnPinnedChange,
+  onResetColumns,
 }: ToolbarProps) {
   const [inputValue, setInputValue] = useState(search ?? '');
   const debouncedSearch = useDebouncedValue(inputValue, 300);
@@ -65,6 +75,12 @@ export function Toolbar({
         <Filter size={17} aria-hidden="true" />
         <span className={styles.filterLabel}>Filters{activeFilterCount ? ` (${activeFilterCount})` : ''}</span>
       </Button>
+      <ColumnPicker
+        columns={columns}
+        onVisibilityChange={onColumnVisibilityChange}
+        onPinnedChange={onColumnPinnedChange}
+        onReset={onResetColumns}
+      />
     </div>
   );
 }
