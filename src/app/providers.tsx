@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState, type PropsWithChildren } from 'react';
 import { ThemeProvider } from './ThemeProvider';
+import { DatasetProvider } from './DatasetProvider';
 
 export function AppProviders({ children }: PropsWithChildren) {
   const [queryClient] = useState(
@@ -18,7 +19,9 @@ export function AppProviders({ children }: PropsWithChildren) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>{children}</ThemeProvider>
+      <ThemeProvider>
+        <DatasetProvider>{children}</DatasetProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

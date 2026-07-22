@@ -16,8 +16,10 @@ describe('ThemeToggle', () => {
       </ThemeProvider>,
     );
 
-    await user.click(screen.getByRole('button', { name: /Theme: system/ }));
+    expect(screen.getByRole('button', { name: 'System' })).toHaveAttribute('aria-pressed', 'true');
+    await user.click(screen.getByRole('button', { name: 'Light' }));
     expect(localStorage.getItem(THEME_STORAGE_KEY)).toBe('light');
     expect(document.documentElement.dataset.theme).toBe('light');
+    expect(screen.getByRole('button', { name: 'Light' })).toHaveAttribute('aria-pressed', 'true');
   });
 });

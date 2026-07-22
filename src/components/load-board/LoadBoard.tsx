@@ -1,5 +1,7 @@
 import { AlertCircle, RefreshCw } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { useDatasetPreference } from '../../app/DatasetProvider';
 import { useLoadFilterOptions, useLoads } from '../../hooks/useLoads';
 import { useLoadQueryState } from '../../hooks/useLoadQueryState';
 import type { LoadFilters as LoadFilterState } from '../../services/loads/types';
@@ -12,9 +14,11 @@ import { LoadToolbar } from './LoadToolbar';
 
 export function LoadBoard() {
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const { largeDataset } = useDatasetPreference();
   const { query, setSearch, setFilters, clearAll, setSort, setPage, setPageSize, activeFilterCount } = useLoadQueryState();
-  const loadsQuery = useLoads(query);
-  const optionsQuery = useLoadFilterOptions();
+  const previousDataset = useRef(largeDataset);
+  const loadsQuery = useLoads(query, largeDataset);
+  const optionsQuery = useLoadFilterOptions(largeDataset);
   const total = loadsQuery.data?.total ?? 0;
   const pageCount = Math.max(1, Math.ceil(total / query.pageSize));
   const resultLabel = loadsQuery.isFetching
@@ -25,19 +29,30 @@ export function LoadBoard() {
     if (loadsQuery.data && query.page > pageCount) setPage(pageCount);
   }, [loadsQuery.data, pageCount, query.page, setPage]);
 
+  useEffect(() => {
+    if (previousDataset.current !== largeDataset) {
+      previousDataset.current = largeDataset;
+      setPage(1);
+    }
+  }, [largeDataset, setPage]);
+
   const clearFilter = (key: keyof LoadFilterState) => setFilters({ [key]: undefined });
+  const toolbarTarget = document.getElementById('load-board-toolbar');
+  const toolbar = (
+    <LoadToolbar
+      search={query.search}
+      onSearchChange={setSearch}
+      filtersOpen={filtersOpen}
+      onFiltersOpenChange={setFiltersOpen}
+      activeFilterCount={activeFilterCount}
+    />
+  );
 
   return (
     <section className="load-board" aria-labelledby="load-board-heading">
       <h1 id="load-board-heading" className="sr-only">Freight load board</h1>
+      {toolbarTarget ? createPortal(toolbar, toolbarTarget) : toolbar}
       <div className="load-board__panel">
-        <LoadToolbar
-          search={query.search}
-          onSearchChange={setSearch}
-          filtersOpen={filtersOpen}
-          onFiltersOpenChange={setFiltersOpen}
-          activeFilterCount={activeFilterCount}
-        />
         <LoadFilters
           filters={query.filters ?? {}}
           options={optionsQuery.data}
@@ -67,10 +82,6 @@ export function LoadBoard() {
           </div>
         ) : (
           <>
-            <div className="grid-status-bar">
-              <span>{loadsQuery.isFetching && !loadsQuery.isLoading ? 'Updating results…' : resultLabel}</span>
-              <span>Use arrow keys to move through grid cells.</span>
-            </div>
             <LoadGrid
               loads={loadsQuery.data?.items ?? []}
               sort={query.sort}

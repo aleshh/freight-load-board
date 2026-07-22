@@ -20,6 +20,8 @@ Theme preference supports light, dark, and system values, is stored in local sto
 
 `LoadService` defines a paginated contract with search, filters, multi-column sorting, and paging. `mockLoadService` reads `mockLoads.json`, applies the query, simulates latency, and returns a promise. UI code does not import mock JSON. A future HTTP service can implement the same interface without changing the grid.
 
+Settings can switch to an additional deterministic 10,000-record dataset. That JSON is dynamically imported only when enabled, so the standard experience does not download the larger fixture. Its first 48 entries match the standard dataset, and the remaining records can be reproduced with `scripts/generate-large-dataset.mjs`.
+
 Search input is debounced. TanStack Query cancels superseded requests and keeps the previous page visible while the next page is retrieved. Column definitions and defaults are memoized, row IDs are stable, derived rate-per-mile values are calculated without changing source data, and AG Grid renders only visible rows and columns.
 
 ## Accessibility

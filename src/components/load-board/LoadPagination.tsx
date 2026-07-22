@@ -19,7 +19,9 @@ export function LoadPagination({ page, pageSize, total, onPageChange, onPageSize
 
   return (
     <nav className="load-pagination" aria-label="Load results pagination">
-      <p className="load-pagination__summary">Showing {numberWithCommas(first)}–{numberWithCommas(last)} of {numberWithCommas(total)}</p>
+      <p className="load-pagination__summary">
+        {numberWithCommas(total)} freight {total === 1 ? 'load' : 'loads'} found · Showing {numberWithCommas(first)}–{numberWithCommas(last)}
+      </p>
       <div className="load-pagination__controls">
         <AppSelect
           label="Rows per page"

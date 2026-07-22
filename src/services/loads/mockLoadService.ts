@@ -9,6 +9,7 @@ const searchableFields: (keyof Pick<
 >)[] = ['id', 'company', 'origin', 'destination', 'equipmentType', 'status'];
 
 function delay(ms: number, signal?: AbortSignal) {
+  if (signal?.aborted) return Promise.reject(new DOMException('Request aborted', 'AbortError'));
   if (ms === 0) return Promise.resolve();
   return new Promise<void>((resolve, reject) => {
     const timer = window.setTimeout(resolve, ms);
@@ -94,3 +95,13 @@ export function createMockLoadService(data: Load[] = mockLoads as Load[], latenc
 }
 
 export const mockLoadService = createMockLoadService();
+
+let largeMockLoadServicePromise: Promise<LoadService> | undefined;
+
+export function getMockLoadService(largeDataset: boolean): Promise<LoadService> {
+  if (!largeDataset) return Promise.resolve(mockLoadService);
+  largeMockLoadServicePromise ??= import('../../data/mockLoads.large.json').then(({ default: data }) =>
+    createMockLoadService(data as Load[]),
+  );
+  return largeMockLoadServicePromise;
+}

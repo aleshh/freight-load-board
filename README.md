@@ -39,6 +39,8 @@ pnpm exec playwright install chromium
 - `src/hooks` — TanStack Query access and URL-backed query state
 - `src/theme/theme.ts` — centralized light/dark design tokens
 - `src/data/mockLoads.json` — initial freight dataset
+- `src/data/mockLoads.large.json` — optional 10,000-record performance dataset
+- `scripts/generate-large-dataset.mjs` — deterministic large-dataset generator
 - `src/test` and `e2e` — unit, component, accessibility, and workflow coverage
 - `src/spec/architecture.md` — design rationale and production path
 
@@ -49,6 +51,7 @@ pnpm exec playwright install chromium
 - In a select, use arrow keys to move and Enter to select.
 - In the grid, use arrow keys to move between headers and cells. Enter sorts a focused sortable header.
 - A skip link appears when focused at the beginning of the page.
+- Open Settings from the gear button to choose light, dark, or system theme and enable the 10,000-record dataset.
 
 ## Accessibility validation
 

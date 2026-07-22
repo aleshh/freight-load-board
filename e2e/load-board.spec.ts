@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 test('searches, filters, sorts, and clears the load board', async ({ page }) => {
   const search = page.getByRole('searchbox', { name: 'Search loads' });
   await search.fill('Northstar');
-  await expect(page.getByText('7 freight loads found.')).toBeVisible();
+  await expect(page.getByText('7 freight loads found · Showing 1–7')).toBeVisible();
 
   await page.getByRole('button', { name: /Filters/ }).click();
   await page.getByRole('combobox', { name: 'Status' }).click();
@@ -20,21 +20,26 @@ test('searches, filters, sorts, and clears the load board', async ({ page }) => 
   await expect(page).toHaveURL(/sort=price%3Aasc/);
 
   await page.getByRole('button', { name: 'Clear all' }).click();
-  await expect(page.getByText('48 freight loads found.')).toBeVisible();
+  await expect(page.getByText('48 freight loads found · Showing 1–25')).toBeVisible();
 });
 
-test('supports pagination, keyboard focus, and persisted themes', async ({ page }) => {
+test('supports pagination, keyboard focus, and persisted settings', async ({ page }) => {
   await page.getByRole('button', { name: 'Next page' }).click();
   await expect(page.getByText('Page 2 of 2')).toBeVisible();
 
   await page.keyboard.press('Control+k');
   await expect(page.getByRole('searchbox', { name: 'Search loads' })).toBeFocused();
 
-  const themeButton = page.getByRole('button', { name: /Theme: system/ });
-  await themeButton.click();
+  await page.getByRole('button', { name: 'Open settings' }).click();
+  await page.getByRole('button', { name: 'Light' }).click();
+  await page.getByRole('switch', { name: 'Load large dataset' }).click();
+  await page.getByRole('button', { name: 'Close settings' }).click();
+
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(page.getByText('10,000 freight loads found · Showing 1–25')).toBeVisible();
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(page.getByText('10,000 freight loads found · Showing 1–25')).toBeVisible();
 });
 
 test('has no detectable WCAG A or AA violations in the default view', async ({ page }) => {

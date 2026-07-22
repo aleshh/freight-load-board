@@ -55,12 +55,13 @@ export function LoadToolbar({
       </div>
       <AppButton
         variant="secondary"
+        aria-label={`Filters${activeFilterCount ? `, ${activeFilterCount} active` : ''}`}
         aria-expanded={filtersOpen}
         aria-controls="load-filters"
         onClick={() => onFiltersOpenChange(!filtersOpen)}
       >
         <Filter size={17} aria-hidden="true" />
-        Filters{activeFilterCount ? ` (${activeFilterCount})` : ''}
+        <span className="filter-button__label">Filters{activeFilterCount ? ` (${activeFilterCount})` : ''}</span>
       </AppButton>
     </div>
   );
