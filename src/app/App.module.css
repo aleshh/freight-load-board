@@ -14,7 +14,7 @@
   justify-content: space-between;
   gap: var(--space-md);
   min-height: 4.25rem;
-  padding: var(--space-md) clamp(var(--space-lg), 4vw, var(--space-xxl));
+  padding: var(--space-md) var(--space-lg);
   border-bottom: var(--border-width) solid var(--color-border);
   background: color-mix(in srgb, var(--color-surface) 92%, transparent);
   backdrop-filter: blur(16px);
@@ -68,5 +68,7 @@
 
   .header {
     min-height: 3.75rem;
+    padding-right: var(--space-md);
+    padding-left: var(--space-md);
   }
 }

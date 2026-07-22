@@ -1,4 +1,5 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useId, useState } from 'react';
 import { Button } from '../../ui/Button/Button';
 import { Select } from '../../ui/Select/Select';
 import styles from './Pagination.module.css';
@@ -17,6 +18,22 @@ export function Pagination({ page, pageSize, total, onPageChange, onPageSizeChan
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
   const first = total === 0 ? 0 : (page - 1) * pageSize + 1;
   const last = Math.min(page * pageSize, total);
+  const pageInputId = useId();
+  const [pageInput, setPageInput] = useState(String(page));
+
+  useEffect(() => setPageInput(String(page)), [page]);
+
+  const commitPageInput = () => {
+    const requestedPage = Number.parseInt(pageInput, 10);
+    if (!Number.isFinite(requestedPage)) {
+      setPageInput(String(page));
+      return;
+    }
+
+    const nextPage = Math.min(pageCount, Math.max(1, requestedPage));
+    setPageInput(String(nextPage));
+    if (nextPage !== page) onPageChange(nextPage);
+  };
 
   return (
     <nav id="load-pagination" className={styles.root} aria-label="Load results pagination" tabIndex={-1}>
@@ -32,7 +49,28 @@ export function Pagination({ page, pageSize, total, onPageChange, onPageSizeChan
           layout="inline"
           className={styles.pageSize}
         />
-        <span className={styles.page}>Page {page} of {pageCount}</span>
+        <div className={styles.pageJump}>
+          <label htmlFor={pageInputId}>Page</label>
+          <input
+            id={pageInputId}
+            className={styles.pageInput}
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={pageInput}
+            onChange={(event) => {
+              if (/^\d*$/.test(event.target.value)) setPageInput(event.target.value);
+            }}
+            onBlur={commitPageInput}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                event.currentTarget.blur();
+              }
+            }}
+          />
+          <span>of {pageCount}</span>
+        </div>
         <Button variant="icon" aria-label="Previous page" disabled={page <= 1} onClick={() => onPageChange(page - 1)}>
           <ChevronLeft size={18} aria-hidden="true" />
         </Button>
