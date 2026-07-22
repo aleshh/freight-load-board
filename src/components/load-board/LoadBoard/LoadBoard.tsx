@@ -2,6 +2,7 @@ import { AlertCircle, RefreshCw } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useDatasetPreference } from '../../../app/DatasetProvider';
+import { useDebouncedValue } from '../../../hooks/useDebouncedValue';
 import { useLoadFilterOptions, useLoads } from '../../../hooks/useLoads';
 import { useLoadQueryState } from '../../../hooks/useLoadQueryState';
 import { numberFormatter } from '../../../lib/formatters';
@@ -28,11 +29,13 @@ export function LoadBoard() {
   const first = total === 0 ? 0 : (query.page - 1) * query.pageSize + 1;
   const last = Math.min(query.page * query.pageSize, total);
   const resultSummary = `${numberFormatter.format(total)} freight ${total === 1 ? 'load' : 'loads'} found.`;
-  const resultAnnouncement = loadsQuery.isFetching
-    ? 'Updating freight loads.'
-    : `${resultSummary} Page ${query.page} of ${pageCount}. ${total === 0
-      ? 'No loads to show.'
-      : `Showing ${numberFormatter.format(first)} through ${numberFormatter.format(last)}.`}`;
+  const settledResultAnnouncement = `${resultSummary} Page ${query.page} of ${pageCount}. ${total === 0
+    ? 'No loads to show.'
+    : `Showing ${numberFormatter.format(first)} through ${numberFormatter.format(last)}.`}`;
+  const resultAnnouncement = useDebouncedValue(
+    loadsQuery.isFetching ? '' : settledResultAnnouncement,
+    500,
+  );
 
   useEffect(() => {
     if (loadsQuery.data && query.page > pageCount) setPage(pageCount);

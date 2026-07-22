@@ -165,6 +165,8 @@ export const Grid = forwardRef<GridHandle, GridProps>(function Grid(
         loading={loading}
         animateRows={false}
         suppressCellFocus={false}
+        suppressColumnVirtualisation
+        suppressRowVirtualisation
         ensureDomOrder
         overlayLoadingTemplate={`<span class="${styles.overlay}">Loading freight loads…</span>`}
         overlayNoRowsTemplate={`<span class="${styles.overlay}">No freight loads match the current query.</span>`}

@@ -8,6 +8,8 @@ The most important component in this app is the data grid, and several options w
 
 #### Other components
 
+Most of our other dependencies are standard fare: React, Radix UI for some basic components, TanStack Query for handling data, Lucide icons.
+
 ### Theme styling approach
 
 In order to make our theme reusable and portable, we've expressed it in a typescript object (theme.ts). The theme values get injected into HTML as CSS variables. This approach gives us good performance, and it saves code complexity, because styling in components can be CSS based, not requiring importing the theme each time.
@@ -22,7 +24,7 @@ Since performance is a priority with this system, I wanted to see how it functio
 
 We have the proper semantic markup, including labels, fieldsets, and live announcements for results counts, page changes, etc.
 
-Tested with keyboard-only navigation. Not tested with a screen reader; however, we have provided screen-reader landmarks and other features to make the application navigable.
+Tested with keyboard-only navigation. Briefly tested with VoiceOver. We have screen-reader landmarks and other features to make the application navigable, and announcements where applicable. Tested at 200%. We also have axe to help catch potential accessibility issues.
 
 ### Testing
 
