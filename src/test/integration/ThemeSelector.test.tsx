@@ -2,17 +2,17 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { ThemeProvider } from '../../app/ThemeProvider';
-import { ThemeToggle } from '../../components/ui/ThemeToggle';
+import { ThemeSelector } from '../../components/ui/ThemeSelector/ThemeSelector';
 import { THEME_STORAGE_KEY } from '../../theme/theme';
 
-describe('ThemeToggle', () => {
+describe('ThemeSelector', () => {
   beforeEach(() => localStorage.clear());
 
   it('persists the selected preference', async () => {
     const user = userEvent.setup();
     render(
       <ThemeProvider>
-        <ThemeToggle />
+        <ThemeSelector />
       </ThemeProvider>,
     );
 

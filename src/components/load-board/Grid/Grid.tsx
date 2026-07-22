@@ -14,12 +14,12 @@ import {
 } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
-import { useTheme } from '../../app/ThemeProvider';
-import { getAgGridThemeClass } from '../../theme/theme';
-import type { Load } from '../../types/load';
-import type { LoadSort, SortableLoadField } from '../../services/loads/types';
+import { useTheme } from '../../../app/ThemeProvider';
+import { getAgGridThemeClass } from '../../../theme/theme';
+import type { Load } from '../../../types/load';
+import type { LoadSort, SortableLoadField } from '../../../services/loads/types';
 import { loadColumnDefinitions } from './columns';
-import styles from './LoadGrid.module.css';
+import styles from './Grid.module.css';
 
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
@@ -29,7 +29,7 @@ ModuleRegistry.registerModules([
   RenderApiModule,
 ]);
 
-interface LoadGridProps {
+interface GridProps {
   loads: Load[];
   sort?: LoadSort[];
   onSortChange: (sort?: LoadSort[]) => void;
@@ -37,7 +37,7 @@ interface LoadGridProps {
   announcingLabel: string;
 }
 
-export function LoadGrid({ loads, sort, onSortChange, loading, announcingLabel }: LoadGridProps) {
+export function Grid({ loads, sort, onSortChange, loading, announcingLabel }: GridProps) {
   const { mode } = useTheme();
   const columnDefs = useMemo<ColDef<Load>[]>(() => loadColumnDefinitions, []);
   const defaultColDef = useMemo<ColDef<Load>>(

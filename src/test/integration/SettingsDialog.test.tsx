@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { DatasetProvider } from '../../app/DatasetProvider';
 import { ThemeProvider } from '../../app/ThemeProvider';
-import { SettingsDialog } from '../../components/ui/SettingsDialog';
+import { SettingsDialog } from '../../components/ui/SettingsDialog/SettingsDialog';
 
 describe('SettingsDialog', () => {
   beforeEach(() => localStorage.clear());

@@ -1,6 +1,6 @@
-import styles from './AppSwitch.module.css';
+import styles from './Switch.module.css';
 
-interface AppSwitchProps {
+interface SwitchProps {
   id: string;
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
@@ -8,7 +8,7 @@ interface AppSwitchProps {
   description?: string;
 }
 
-export function AppSwitch({ id, checked, onCheckedChange, label, description }: AppSwitchProps) {
+export function Switch({ id, checked, onCheckedChange, label, description }: SwitchProps) {
   const descriptionId = description ? `${id}-description` : undefined;
 
   return (

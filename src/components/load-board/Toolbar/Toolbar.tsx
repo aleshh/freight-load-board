@@ -1,11 +1,11 @@
 import { Filter, Search } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { useDebouncedValue } from '../../hooks/useDebouncedValue';
-import { AppButton } from '../ui/AppButton';
-import { AppInput } from '../ui/AppInput';
-import styles from './LoadToolbar.module.css';
+import { useDebouncedValue } from '../../../hooks/useDebouncedValue';
+import { Button } from '../../ui/Button/Button';
+import { Input } from '../../ui/Input/Input';
+import styles from './Toolbar.module.css';
 
-interface LoadToolbarProps {
+interface ToolbarProps {
   search?: string;
   onSearchChange: (search?: string) => void;
   filtersOpen: boolean;
@@ -13,13 +13,13 @@ interface LoadToolbarProps {
   activeFilterCount: number;
 }
 
-export function LoadToolbar({
+export function Toolbar({
   search,
   onSearchChange,
   filtersOpen,
   onFiltersOpenChange,
   activeFilterCount,
-}: LoadToolbarProps) {
+}: ToolbarProps) {
   const [inputValue, setInputValue] = useState(search ?? '');
   const debouncedSearch = useDebouncedValue(inputValue, 300);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -41,7 +41,7 @@ export function LoadToolbar({
   return (
     <div className={styles.root}>
       <div className={styles.search}>
-        <AppInput
+        <Input
           ref={searchRef}
           label="Search loads"
           hideLabel
@@ -54,7 +54,7 @@ export function LoadToolbar({
         />
         <span className={styles.shortcut} aria-hidden="true">⌘ K</span>
       </div>
-      <AppButton
+      <Button
         variant="secondary"
         aria-label={`Filters${activeFilterCount ? `, ${activeFilterCount} active` : ''}`}
         aria-expanded={filtersOpen}
@@ -63,7 +63,7 @@ export function LoadToolbar({
       >
         <Filter size={17} aria-hidden="true" />
         <span className={styles.filterLabel}>Filters{activeFilterCount ? ` (${activeFilterCount})` : ''}</span>
-      </AppButton>
+      </Button>
     </div>
   );
 }

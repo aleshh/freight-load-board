@@ -1,16 +1,16 @@
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useDatasetPreference } from '../../app/DatasetProvider';
-import { useLoadFilterOptions, useLoads } from '../../hooks/useLoads';
-import { useLoadQueryState } from '../../hooks/useLoadQueryState';
-import type { LoadFilters as LoadFilterState } from '../../services/loads/types';
-import { AppButton } from '../ui/AppButton';
-import { ActiveFilters } from './ActiveFilters';
-import { LoadFilters } from './LoadFilters';
-import { LoadGrid } from './LoadGrid';
-import { LoadPagination } from './LoadPagination';
-import { LoadToolbar } from './LoadToolbar';
+import { useDatasetPreference } from '../../../app/DatasetProvider';
+import { useLoadFilterOptions, useLoads } from '../../../hooks/useLoads';
+import { useLoadQueryState } from '../../../hooks/useLoadQueryState';
+import type { LoadFilters as LoadFilterState } from '../../../services/loads/types';
+import { Button } from '../../ui/Button/Button';
+import { ActiveFilters } from '../ActiveFilters/ActiveFilters';
+import { Filters } from '../Filters/Filters';
+import { Grid } from '../Grid/Grid';
+import { Pagination } from '../Pagination/Pagination';
+import { Toolbar } from '../Toolbar/Toolbar';
 import styles from './LoadBoard.module.css';
 
 export function LoadBoard() {
@@ -40,7 +40,7 @@ export function LoadBoard() {
   const clearFilter = (key: keyof LoadFilterState) => setFilters({ [key]: undefined });
   const toolbarTarget = document.getElementById('load-board-toolbar');
   const toolbar = (
-    <LoadToolbar
+    <Toolbar
       search={query.search}
       onSearchChange={setSearch}
       filtersOpen={filtersOpen}
@@ -54,7 +54,7 @@ export function LoadBoard() {
       <h1 id="load-board-heading" className="sr-only">Freight load board</h1>
       {toolbarTarget ? createPortal(toolbar, toolbarTarget) : toolbar}
       <div className={styles.panel}>
-        <LoadFilters
+        <Filters
           filters={query.filters ?? {}}
           options={optionsQuery.data}
           onChange={setFilters}
@@ -77,20 +77,20 @@ export function LoadBoard() {
               <h2>Loads could not be retrieved</h2>
               <p>Please check your connection and try again.</p>
             </div>
-            <AppButton variant="secondary" onClick={() => loadsQuery.refetch()}>
+            <Button variant="secondary" onClick={() => loadsQuery.refetch()}>
               <RefreshCw size={17} aria-hidden="true" /> Retry
-            </AppButton>
+            </Button>
           </div>
         ) : (
           <>
-            <LoadGrid
+            <Grid
               loads={loadsQuery.data?.items ?? []}
               sort={query.sort}
               onSortChange={setSort}
               loading={loadsQuery.isLoading}
               announcingLabel={`Freight loads data grid. ${resultLabel}`}
             />
-            <LoadPagination
+            <Pagination
               page={query.page}
               pageSize={query.pageSize}
               total={total}

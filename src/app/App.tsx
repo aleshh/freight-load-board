@@ -1,9 +1,9 @@
 import { Truck } from 'lucide-react';
 import { lazy, Suspense } from 'react';
-import { SettingsDialog } from '../components/ui/SettingsDialog';
+import { SettingsDialog } from '../components/ui/SettingsDialog/SettingsDialog';
 import styles from './App.module.css';
 
-const LoadBoard = lazy(() => import('../components/load-board/LoadBoard').then((module) => ({ default: module.LoadBoard })));
+const LoadBoard = lazy(() => import('../components/load-board/LoadBoard/LoadBoard').then((module) => ({ default: module.LoadBoard })));
 
 export default function App() {
   return (

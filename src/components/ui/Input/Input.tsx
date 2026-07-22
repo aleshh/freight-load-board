@@ -1,9 +1,9 @@
 import { forwardRef, useId, type InputHTMLAttributes, type ReactNode } from 'react';
-import { cn } from '../../lib/utils';
-import fieldStyles from './FormField.module.css';
-import styles from './AppInput.module.css';
+import { cn } from '../../../lib/utils';
+import fieldStyles from '../shared/FormField.module.css';
+import styles from './Input.module.css';
 
-interface AppInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   hideLabel?: boolean;
   error?: string;
@@ -11,7 +11,7 @@ interface AppInputProps extends InputHTMLAttributes<HTMLInputElement> {
   leadingIcon?: ReactNode;
 }
 
-export const AppInput = forwardRef<HTMLInputElement, AppInputProps>(
+export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, hideLabel, error, hint, leadingIcon, id, className, ...props }, ref) => {
     const generatedId = useId();
     const inputId = id ?? generatedId;
@@ -42,4 +42,4 @@ export const AppInput = forwardRef<HTMLInputElement, AppInputProps>(
     );
   },
 );
-AppInput.displayName = 'AppInput';
+Input.displayName = 'Input';

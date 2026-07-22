@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 import { forwardRef, type ButtonHTMLAttributes } from 'react';
-import { cn } from '../../lib/utils';
-import styles from './AppButton.module.css';
+import { cn } from '../../../lib/utils';
+import styles from './Button.module.css';
 
 const buttonVariants = cva(
   styles.button,
@@ -20,13 +20,13 @@ const buttonVariants = cva(
   },
 );
 
-export interface AppButtonProps
+export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {}
 
-export const AppButton = forwardRef<HTMLButtonElement, AppButtonProps>(
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, type = 'button', ...props }, ref) => (
     <button ref={ref} type={type} className={cn(buttonVariants({ variant }), className)} {...props} />
   ),
 );
-AppButton.displayName = 'AppButton';
+Button.displayName = 'Button';

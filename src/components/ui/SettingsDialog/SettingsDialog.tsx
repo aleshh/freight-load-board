@@ -1,9 +1,9 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import { Settings, X } from 'lucide-react';
-import { useDatasetPreference } from '../../app/DatasetProvider';
-import { AppButton } from './AppButton';
-import { AppSwitch } from './AppSwitch';
-import { ThemeToggle } from './ThemeToggle';
+import { useDatasetPreference } from '../../../app/DatasetProvider';
+import { Button } from '../Button/Button';
+import { Switch } from '../Switch/Switch';
+import { ThemeSelector } from '../ThemeSelector/ThemeSelector';
 import styles from './SettingsDialog.module.css';
 
 export function SettingsDialog() {
@@ -12,9 +12,9 @@ export function SettingsDialog() {
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <AppButton variant="icon" aria-label="Open settings">
+        <Button variant="icon" aria-label="Open settings">
           <Settings size={19} aria-hidden="true" />
-        </AppButton>
+        </Button>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className={styles.overlay} />
@@ -25,21 +25,21 @@ export function SettingsDialog() {
               <Dialog.Description className={styles.description}>Customize the load board for this browser.</Dialog.Description>
             </div>
             <Dialog.Close asChild>
-              <AppButton variant="icon" aria-label="Close settings">
+              <Button variant="icon" aria-label="Close settings">
                 <X size={18} aria-hidden="true" />
-              </AppButton>
+              </Button>
             </Dialog.Close>
           </div>
 
           <section className={styles.section} aria-labelledby="theme-setting-heading">
             <h2 id="theme-setting-heading">Appearance</h2>
             <p>Choose how Freightflow looks.</p>
-            <ThemeToggle />
+            <ThemeSelector />
           </section>
 
           <section className={styles.section} aria-labelledby="data-setting-heading">
             <h2 id="data-setting-heading">Demonstration data</h2>
-            <AppSwitch
+            <Switch
               id="large-dataset"
               checked={largeDataset}
               onCheckedChange={setLargeDataset}

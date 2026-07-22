@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
-import { ActiveFilters } from '../../components/load-board/ActiveFilters';
+import { ActiveFilters } from '../../components/load-board/ActiveFilters/ActiveFilters';
 
 describe('ActiveFilters', () => {
   it('shows active state and exposes named removal actions', async () => {

@@ -1,8 +1,8 @@
 import { Monitor, Moon, Sun, type LucideIcon } from 'lucide-react';
-import { useTheme } from '../../app/ThemeProvider';
-import type { ThemePreference } from '../../theme/theme';
-import { AppButton } from './AppButton';
-import styles from './ThemeToggle.module.css';
+import { useTheme } from '../../../app/ThemeProvider';
+import type { ThemePreference } from '../../../theme/theme';
+import { Button } from '../Button/Button';
+import styles from './ThemeSelector.module.css';
 
 const choices: { value: ThemePreference; label: string; icon: LucideIcon }[] = [
   { value: 'light', label: 'Light', icon: Sun },
@@ -10,13 +10,13 @@ const choices: { value: ThemePreference; label: string; icon: LucideIcon }[] = [
   { value: 'system', label: 'System', icon: Monitor },
 ];
 
-export function ThemeToggle() {
+export function ThemeSelector() {
   const { preference, setPreference } = useTheme();
 
   return (
     <div className={styles.choices} role="group" aria-label="Theme preference">
       {choices.map(({ value, label, icon: Icon }) => (
-        <AppButton
+        <Button
           key={value}
           variant={preference === value ? 'primary' : 'secondary'}
           aria-pressed={preference === value}
@@ -25,7 +25,7 @@ export function ThemeToggle() {
         >
           <Icon size={17} aria-hidden="true" />
           {label}
-        </AppButton>
+        </Button>
       ))}
     </div>
   );

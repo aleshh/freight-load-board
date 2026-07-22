@@ -1,7 +1,7 @@
 import type { ColDef } from 'ag-grid-community';
-import { AppBadge, type BadgeTone } from '../ui/AppBadge';
-import { currencyFormatter, decimalCurrencyFormatter, formatDate, numberFormatter } from '../../lib/formatters';
-import { getRatePerMile, type Load, type LoadStatus } from '../../types/load';
+import { Badge, type BadgeTone } from '../../ui/Badge/Badge';
+import { currencyFormatter, decimalCurrencyFormatter, formatDate, numberFormatter } from '../../../lib/formatters';
+import { getRatePerMile, type Load, type LoadStatus } from '../../../types/load';
 
 const statusTones: Record<LoadStatus, BadgeTone> = {
   Available: 'success',
@@ -55,6 +55,6 @@ export const loadColumnDefinitions: ColDef<Load>[] = [
     field: 'status',
     headerName: 'Status',
     minWidth: 130,
-    cellRenderer: ({ value }: { value: LoadStatus }) => <AppBadge tone={statusTones[value]}>{value}</AppBadge>,
+    cellRenderer: ({ value }: { value: LoadStatus }) => <Badge tone={statusTones[value]}>{value}</Badge>,
   },
 ];

@@ -33,11 +33,12 @@ pnpm exec playwright install chromium
 ## Project structure
 
 - `src/app` — application shell and providers
-- `src/components/ui` — reusable shadcn-style controls and variants
-- `src/components/load-board` — grid, toolbar, filters, chips, and pagination
+- `src/components/ui` — reusable shadcn-style controls, variants, and colocated CSS Modules
+- `src/components/load-board` — grid, toolbar, filters, chips, pagination, and feature-owned CSS Modules
 - `src/services/loads` — replaceable service interface and mock implementation
 - `src/hooks` — TanStack Query access and URL-backed query state
 - `src/theme/theme.ts` — centralized light/dark design tokens
+- `src/index.css` — document defaults and the small set of universal accessibility utilities
 - `src/data/mockLoads.json` — initial freight dataset
 - `src/data/mockLoads.large.json` — optional 10,000-record performance dataset
 - `scripts/generate-large-dataset.mjs` — deterministic large-dataset generator

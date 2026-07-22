@@ -1,9 +1,9 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { AppButton } from '../ui/AppButton';
-import { AppSelect } from '../ui/AppSelect';
-import styles from './LoadPagination.module.css';
+import { Button } from '../../ui/Button/Button';
+import { Select } from '../../ui/Select/Select';
+import styles from './Pagination.module.css';
 
-interface LoadPaginationProps {
+interface PaginationProps {
   page: number;
   pageSize: number;
   total: number;
@@ -13,7 +13,7 @@ interface LoadPaginationProps {
 
 const pageSizeOptions = [10, 25, 50, 100].map((size) => ({ value: String(size), label: String(size) }));
 
-export function LoadPagination({ page, pageSize, total, onPageChange, onPageSizeChange }: LoadPaginationProps) {
+export function Pagination({ page, pageSize, total, onPageChange, onPageSizeChange }: PaginationProps) {
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
   const first = total === 0 ? 0 : (page - 1) * pageSize + 1;
   const last = Math.min(page * pageSize, total);
@@ -24,7 +24,7 @@ export function LoadPagination({ page, pageSize, total, onPageChange, onPageSize
         {numberWithCommas(total)} freight {total === 1 ? 'load' : 'loads'} found · Showing {numberWithCommas(first)}–{numberWithCommas(last)}
       </p>
       <div className={styles.controls}>
-        <AppSelect
+        <Select
           label="Rows per page"
           value={String(pageSize)}
           options={pageSizeOptions}
@@ -33,12 +33,12 @@ export function LoadPagination({ page, pageSize, total, onPageChange, onPageSize
           className={styles.pageSize}
         />
         <span className={styles.page}>Page {page} of {pageCount}</span>
-        <AppButton variant="icon" aria-label="Previous page" disabled={page <= 1} onClick={() => onPageChange(page - 1)}>
+        <Button variant="icon" aria-label="Previous page" disabled={page <= 1} onClick={() => onPageChange(page - 1)}>
           <ChevronLeft size={18} aria-hidden="true" />
-        </AppButton>
-        <AppButton variant="icon" aria-label="Next page" disabled={page >= pageCount} onClick={() => onPageChange(page + 1)}>
+        </Button>
+        <Button variant="icon" aria-label="Next page" disabled={page >= pageCount} onClick={() => onPageChange(page + 1)}>
           <ChevronRight size={18} aria-hidden="true" />
-        </AppButton>
+        </Button>
       </div>
     </nav>
   );

@@ -1,7 +1,7 @@
 import { X } from 'lucide-react';
-import type { LoadFilters } from '../../services/loads/types';
-import { currencyFormatter, numberFormatter } from '../../lib/formatters';
-import { AppButton } from '../ui/AppButton';
+import type { LoadFilters } from '../../../services/loads/types';
+import { currencyFormatter, numberFormatter } from '../../../lib/formatters';
+import { Button } from '../../ui/Button/Button';
 import styles from './ActiveFilters.module.css';
 
 interface ActiveFiltersProps {
@@ -42,16 +42,16 @@ export function ActiveFilters({ search, filters, onClearSearch, onClearFilter, o
     <div className={styles.root} aria-label="Active search and filters">
       <span className={styles.label}>Active:</span>
       {search ? (
-        <AppButton variant="compact" onClick={onClearSearch} aria-label={`Remove search filter: ${search}`}>
+        <Button variant="compact" onClick={onClearSearch} aria-label={`Remove search filter: ${search}`}>
           Search: “{search}” <X size={14} aria-hidden="true" />
-        </AppButton>
+        </Button>
       ) : null}
       {active.map(([key, value]) => (
-        <AppButton key={key} variant="compact" onClick={() => onClearFilter(key)} aria-label={`Remove ${labels[key]} filter: ${value}`}>
+        <Button key={key} variant="compact" onClick={() => onClearFilter(key)} aria-label={`Remove ${labels[key]} filter: ${value}`}>
           {labels[key]}: {displayValue(key, value)} <X size={14} aria-hidden="true" />
-        </AppButton>
+        </Button>
       ))}
-      <AppButton variant="ghost" onClick={onClearAll}>Clear all</AppButton>
+      <Button variant="ghost" onClick={onClearAll}>Clear all</Button>
     </div>
   );
 }
