@@ -6,7 +6,6 @@ import {
   ColumnApiModule,
   ModuleRegistry,
   RenderApiModule,
-  RowSelectionModule,
   type ColDef,
   type GridApi,
   type GridReadyEvent,
@@ -24,7 +23,6 @@ import styles from './Grid.module.css';
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   CellStyleModule,
-  RowSelectionModule,
   ColumnApiModule,
   RenderApiModule,
 ]);
@@ -103,7 +101,6 @@ export function Grid({ loads, sort, onSortChange, loading, announcingLabel }: Gr
         onSortChanged={onSortChanged}
         loading={loading}
         animateRows={false}
-        rowSelection={{ mode: 'singleRow', enableClickSelection: true }}
         suppressCellFocus={false}
         ensureDomOrder
         overlayLoadingTemplate={`<span class="${styles.overlay}">Loading freight loads…</span>`}

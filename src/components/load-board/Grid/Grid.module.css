@@ -16,7 +16,6 @@
   --ag-border-color: var(--color-border);
   --ag-row-border-color: var(--color-border);
   --ag-row-hover-color: var(--color-hover);
-  --ag-selected-row-background-color: var(--color-selected);
   --ag-input-focus-border-color: var(--color-focus);
   --ag-range-selection-border-color: var(--color-focus);
   --ag-checkbox-checked-color: var(--color-brand);
