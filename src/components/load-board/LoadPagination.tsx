@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { AppButton } from '../ui/AppButton';
 import { AppSelect } from '../ui/AppSelect';
+import styles from './LoadPagination.module.css';
 
 interface LoadPaginationProps {
   page: number;
@@ -18,18 +19,20 @@ export function LoadPagination({ page, pageSize, total, onPageChange, onPageSize
   const last = Math.min(page * pageSize, total);
 
   return (
-    <nav className="load-pagination" aria-label="Load results pagination">
-      <p className="load-pagination__summary">
+    <nav className={styles.root} aria-label="Load results pagination">
+      <p className={styles.summary}>
         {numberWithCommas(total)} freight {total === 1 ? 'load' : 'loads'} found · Showing {numberWithCommas(first)}–{numberWithCommas(last)}
       </p>
-      <div className="load-pagination__controls">
+      <div className={styles.controls}>
         <AppSelect
           label="Rows per page"
           value={String(pageSize)}
           options={pageSizeOptions}
           onValueChange={(value) => value && onPageSizeChange(Number(value))}
+          layout="inline"
+          className={styles.pageSize}
         />
-        <span className="load-pagination__page">Page {page} of {pageCount}</span>
+        <span className={styles.page}>Page {page} of {pageCount}</span>
         <AppButton variant="icon" aria-label="Previous page" disabled={page <= 1} onClick={() => onPageChange(page - 1)}>
           <ChevronLeft size={18} aria-hidden="true" />
         </AppButton>

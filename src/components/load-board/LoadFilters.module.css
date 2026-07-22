@@ -1,0 +1,69 @@
+.root {
+  flex: 0 0 auto;
+  max-height: 45vh;
+  overflow-y: auto;
+  padding: var(--space-lg);
+  border-bottom: var(--border-width) solid var(--color-border);
+  background: var(--color-surface-muted);
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.heading p {
+  margin-top: var(--space-xs);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.filterGrid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(9.5rem, 1fr));
+  gap: var(--space-md);
+}
+
+.rangeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(15rem, 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+
+.rangeFieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.rangeFieldset legend {
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 650;
+}
+
+.rangeInputs {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+@media (max-width: 72rem) {
+  .filterGrid {
+    grid-template-columns: repeat(3, minmax(10rem, 1fr));
+  }
+}
+
+@media (max-width: 48rem) {
+  .filterGrid,
+  .rangeGrid {
+    grid-template-columns: 1fr;
+  }
+}

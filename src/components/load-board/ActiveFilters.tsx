@@ -2,6 +2,7 @@ import { X } from 'lucide-react';
 import type { LoadFilters } from '../../services/loads/types';
 import { currencyFormatter, numberFormatter } from '../../lib/formatters';
 import { AppButton } from '../ui/AppButton';
+import styles from './ActiveFilters.module.css';
 
 interface ActiveFiltersProps {
   search?: string;
@@ -38,8 +39,8 @@ export function ActiveFilters({ search, filters, onClearSearch, onClearFilter, o
   if (!search && active.length === 0) return null;
 
   return (
-    <div className="active-filters" aria-label="Active search and filters">
-      <span className="active-filters__label">Active:</span>
+    <div className={styles.root} aria-label="Active search and filters">
+      <span className={styles.label}>Active:</span>
       {search ? (
         <AppButton variant="compact" onClick={onClearSearch} aria-label={`Remove search filter: ${search}`}>
           Search: “{search}” <X size={14} aria-hidden="true" />

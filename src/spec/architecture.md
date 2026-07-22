@@ -8,6 +8,8 @@ AG Grid Community supplies row virtualization, stable keyboard navigation, acces
 
 The UI layer follows the shadcn/ui model: code-owned application components built over accessible primitives. Radix Select provides the complex select behavior, while `AppButton`, `AppInput`, `AppSelect`, and `AppBadge` centralize variants and interaction states. This prevents filter and toolbar features from repeating visual policy.
 
+Component and feature styles use colocated CSS Modules. `src/index.css` is intentionally limited to document defaults, the screen-reader and skip-link utilities, the universal focus-visible policy, and reduced-motion handling. Shared field structure has a small shared module; all other selectors are owned by the component that renders them. AG Grid selectors are isolated in `LoadGrid.module.css` with explicit `:global(...)` escapes.
+
 TanStack Query owns asynchronous load data, request cancellation, caching, retry behavior, and transitional page data. Local React state is limited to transient UI, such as whether the filter panel is open. Search, filters, sorting, page, and page size are serializable and synchronized with the URL.
 
 ## Centralized theme

@@ -1,0 +1,50 @@
+.root:global(.ag-theme-quartz),
+.root:global(.ag-theme-quartz-dark) {
+  flex: 1 1 auto;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  border-top: var(--border-width) solid var(--color-border);
+  border-bottom: var(--border-width) solid var(--color-border);
+  --ag-font-family: var(--font-family);
+  --ag-font-size: var(--font-size-sm);
+  --ag-background-color: var(--color-surface);
+  --ag-foreground-color: var(--color-text);
+  --ag-secondary-foreground-color: var(--color-text-muted);
+  --ag-header-background-color: var(--color-surface-muted);
+  --ag-header-foreground-color: var(--color-text);
+  --ag-border-color: var(--color-border);
+  --ag-row-border-color: var(--color-border);
+  --ag-row-hover-color: var(--color-hover);
+  --ag-selected-row-background-color: var(--color-selected);
+  --ag-input-focus-border-color: var(--color-focus);
+  --ag-range-selection-border-color: var(--color-focus);
+  --ag-checkbox-checked-color: var(--color-brand);
+  --ag-active-color: var(--color-brand);
+  --ag-accent-color: var(--color-brand);
+  --ag-wrapper-border-radius: 0;
+}
+
+.root :global(.ag-root-wrapper) {
+  border: 0;
+}
+
+.root :global(.ag-header-cell-label) {
+  font-weight: 750;
+}
+
+.root :global(.ag-cell-focus),
+.root :global(.ag-header-cell:focus-within) {
+  outline: 3px solid var(--color-focus) !important;
+  outline-offset: -3px;
+}
+
+.overlay {
+  display: inline-flex;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-control);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-surface-raised);
+  color: var(--color-text);
+  box-shadow: var(--shadow-panel);
+}

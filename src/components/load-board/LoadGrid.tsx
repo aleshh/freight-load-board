@@ -19,6 +19,7 @@ import { getAgGridThemeClass } from '../../theme/theme';
 import type { Load } from '../../types/load';
 import type { LoadSort, SortableLoadField } from '../../services/loads/types';
 import { loadColumnDefinitions } from './columns';
+import styles from './LoadGrid.module.css';
 
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
@@ -92,7 +93,7 @@ export function LoadGrid({ loads, sort, onSortChange, loading, announcingLabel }
   };
 
   return (
-    <div className={`load-grid ${getAgGridThemeClass(mode)}`} aria-label={announcingLabel}>
+    <div className={`${styles.root} ${getAgGridThemeClass(mode)}`} aria-label={announcingLabel}>
       <AgGridReact<Load>
         rowData={loads}
         columnDefs={columnDefs}
@@ -105,8 +106,8 @@ export function LoadGrid({ loads, sort, onSortChange, loading, announcingLabel }
         rowSelection={{ mode: 'singleRow', enableClickSelection: true }}
         suppressCellFocus={false}
         ensureDomOrder
-        overlayLoadingTemplate="<span class='grid-overlay' role='status'>Loading freight loads…</span>"
-        overlayNoRowsTemplate="<span class='grid-overlay'>No freight loads match the current query.</span>"
+        overlayLoadingTemplate={`<span class="${styles.overlay}" role="status">Loading freight loads…</span>`}
+        overlayNoRowsTemplate={`<span class="${styles.overlay}">No freight loads match the current query.</span>`}
         theme="legacy"
       />
     </div>

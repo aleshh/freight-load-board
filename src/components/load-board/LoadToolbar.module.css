@@ -1,0 +1,42 @@
+.root {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--space-md);
+  width: 100%;
+}
+
+.search {
+  position: relative;
+  flex: 1 1 32rem;
+  max-width: 45rem;
+}
+
+.shortcut {
+  position: absolute;
+  top: 50%;
+  right: var(--space-sm);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0 var(--space-sm);
+  background: var(--color-surface-muted);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  transform: translateY(-50%);
+}
+
+@media (max-width: 48rem) {
+  .shortcut,
+  .filterLabel {
+    display: none;
+  }
+
+  .root {
+    min-width: 0;
+  }
+
+  .search {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}

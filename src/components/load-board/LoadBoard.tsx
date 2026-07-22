@@ -11,6 +11,7 @@ import { LoadFilters } from './LoadFilters';
 import { LoadGrid } from './LoadGrid';
 import { LoadPagination } from './LoadPagination';
 import { LoadToolbar } from './LoadToolbar';
+import styles from './LoadBoard.module.css';
 
 export function LoadBoard() {
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -49,10 +50,10 @@ export function LoadBoard() {
   );
 
   return (
-    <section className="load-board" aria-labelledby="load-board-heading">
+    <section className={styles.root} aria-labelledby="load-board-heading">
       <h1 id="load-board-heading" className="sr-only">Freight load board</h1>
       {toolbarTarget ? createPortal(toolbar, toolbarTarget) : toolbar}
-      <div className="load-board__panel">
+      <div className={styles.panel}>
         <LoadFilters
           filters={query.filters ?? {}}
           options={optionsQuery.data}
@@ -70,7 +71,7 @@ export function LoadBoard() {
         <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{resultLabel}</p>
 
         {loadsQuery.isError ? (
-          <div className="error-state" role="alert">
+          <div className={styles.error} role="alert">
             <AlertCircle size={26} aria-hidden="true" />
             <div>
               <h2>Loads could not be retrieved</h2>

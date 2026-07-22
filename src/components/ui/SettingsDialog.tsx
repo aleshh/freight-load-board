@@ -4,6 +4,7 @@ import { useDatasetPreference } from '../../app/DatasetProvider';
 import { AppButton } from './AppButton';
 import { AppSwitch } from './AppSwitch';
 import { ThemeToggle } from './ThemeToggle';
+import styles from './SettingsDialog.module.css';
 
 export function SettingsDialog() {
   const { largeDataset, setLargeDataset } = useDatasetPreference();
@@ -16,12 +17,12 @@ export function SettingsDialog() {
         </AppButton>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="settings-dialog__overlay" />
-        <Dialog.Content className="settings-dialog__content">
-          <div className="settings-dialog__header">
+        <Dialog.Overlay className={styles.overlay} />
+        <Dialog.Content className={styles.content}>
+          <div className={styles.header}>
             <div>
-              <Dialog.Title className="settings-dialog__title">Settings</Dialog.Title>
-              <Dialog.Description className="settings-dialog__description">Customize the load board for this browser.</Dialog.Description>
+              <Dialog.Title className={styles.title}>Settings</Dialog.Title>
+              <Dialog.Description className={styles.description}>Customize the load board for this browser.</Dialog.Description>
             </div>
             <Dialog.Close asChild>
               <AppButton variant="icon" aria-label="Close settings">
@@ -30,13 +31,13 @@ export function SettingsDialog() {
             </Dialog.Close>
           </div>
 
-          <section className="settings-section" aria-labelledby="theme-setting-heading">
+          <section className={styles.section} aria-labelledby="theme-setting-heading">
             <h2 id="theme-setting-heading">Appearance</h2>
             <p>Choose how Freightflow looks.</p>
             <ThemeToggle />
           </section>
 
-          <section className="settings-section" aria-labelledby="data-setting-heading">
+          <section className={styles.section} aria-labelledby="data-setting-heading">
             <h2 id="data-setting-heading">Demonstration data</h2>
             <AppSwitch
               id="large-dataset"

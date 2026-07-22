@@ -1,3 +1,5 @@
+import styles from './AppSwitch.module.css';
+
 interface AppSwitchProps {
   id: string;
   checked: boolean;
@@ -10,22 +12,22 @@ export function AppSwitch({ id, checked, onCheckedChange, label, description }: 
   const descriptionId = description ? `${id}-description` : undefined;
 
   return (
-    <div className="app-switch-row">
-      <span>
-        <span id={`${id}-label`} className="app-switch-row__label">{label}</span>
-        {description ? <span id={descriptionId} className="app-switch-row__description">{description}</span> : null}
+    <div className={styles.row}>
+      <span className={styles.copy}>
+        <span id={`${id}-label`} className={styles.label}>{label}</span>
+        {description ? <span id={descriptionId} className={styles.description}>{description}</span> : null}
       </span>
       <button
         id={id}
         type="button"
         role="switch"
-        className="app-switch"
+        className={styles.switch}
         aria-checked={checked}
         aria-labelledby={`${id}-label`}
         aria-describedby={descriptionId}
         onClick={() => onCheckedChange(!checked)}
       >
-        <span className="app-switch__thumb" aria-hidden="true" />
+        <span className={styles.thumb} aria-hidden="true" />
       </button>
     </div>
   );

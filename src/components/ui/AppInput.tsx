@@ -1,5 +1,7 @@
 import { forwardRef, useId, type InputHTMLAttributes, type ReactNode } from 'react';
 import { cn } from '../../lib/utils';
+import fieldStyles from './FormField.module.css';
+import styles from './AppInput.module.css';
 
 interface AppInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -16,23 +18,23 @@ export const AppInput = forwardRef<HTMLInputElement, AppInputProps>(
     const descriptionId = `${inputId}-description`;
 
     return (
-      <div className="app-field">
-        <label className={hideLabel ? 'sr-only' : 'app-field__label'} htmlFor={inputId}>
+      <div className={fieldStyles.field}>
+        <label className={hideLabel ? 'sr-only' : fieldStyles.label} htmlFor={inputId}>
           {label}
         </label>
-        <div className="app-input-shell">
-          {leadingIcon ? <span className="app-input-shell__icon" aria-hidden="true">{leadingIcon}</span> : null}
+        <div className={styles.shell}>
+          {leadingIcon ? <span className={styles.icon} aria-hidden="true">{leadingIcon}</span> : null}
           <input
             ref={ref}
             id={inputId}
-            className={cn('app-input', leadingIcon && 'app-input--with-icon', className)}
+            className={cn(styles.input, leadingIcon && styles.withIcon, className)}
             aria-invalid={Boolean(error)}
             aria-describedby={error || hint ? descriptionId : undefined}
             {...props}
           />
         </div>
         {error || hint ? (
-          <p id={descriptionId} className={error ? 'app-field__error' : 'app-field__hint'}>
+          <p id={descriptionId} className={error ? styles.error : styles.hint}>
             {error ?? hint}
           </p>
         ) : null}

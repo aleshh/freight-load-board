@@ -1,0 +1,50 @@
+.shell {
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: var(--space-md);
+  display: flex;
+  color: var(--color-text-muted);
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.input {
+  width: 100%;
+  height: var(--control-height);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-control);
+  padding: 0 var(--space-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+}
+
+.withIcon {
+  padding-left: 2.5rem;
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 1;
+}
+
+.input[aria-invalid='true'] {
+  border-color: var(--color-danger);
+}
+
+.hint,
+.error {
+  font-size: var(--font-size-xs);
+}
+
+.hint {
+  color: var(--color-text-muted);
+}
+
+.error {
+  color: var(--color-danger);
+}

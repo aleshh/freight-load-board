@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDebouncedValue } from '../../hooks/useDebouncedValue';
 import { AppButton } from '../ui/AppButton';
 import { AppInput } from '../ui/AppInput';
+import styles from './LoadToolbar.module.css';
 
 interface LoadToolbarProps {
   search?: string;
@@ -38,8 +39,8 @@ export function LoadToolbar({
   }, []);
 
   return (
-    <div className="load-toolbar">
-      <div className="load-toolbar__search">
+    <div className={styles.root}>
+      <div className={styles.search}>
         <AppInput
           ref={searchRef}
           label="Search loads"
@@ -51,7 +52,7 @@ export function LoadToolbar({
           leadingIcon={<Search size={18} />}
           aria-keyshortcuts="Control+K Meta+K"
         />
-        <span className="search-shortcut" aria-hidden="true">⌘ K</span>
+        <span className={styles.shortcut} aria-hidden="true">⌘ K</span>
       </div>
       <AppButton
         variant="secondary"
@@ -61,7 +62,7 @@ export function LoadToolbar({
         onClick={() => onFiltersOpenChange(!filtersOpen)}
       >
         <Filter size={17} aria-hidden="true" />
-        <span className="filter-button__label">Filters{activeFilterCount ? ` (${activeFilterCount})` : ''}</span>
+        <span className={styles.filterLabel}>Filters{activeFilterCount ? ` (${activeFilterCount})` : ''}</span>
       </AppButton>
     </div>
   );

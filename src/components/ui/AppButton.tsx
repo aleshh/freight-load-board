@@ -1,18 +1,19 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 import { forwardRef, type ButtonHTMLAttributes } from 'react';
 import { cn } from '../../lib/utils';
+import styles from './AppButton.module.css';
 
 const buttonVariants = cva(
-  'app-button inline-flex items-center justify-center gap-2 rounded-control text-sm font-semibold transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50',
+  styles.button,
   {
     variants: {
       variant: {
-        primary: 'app-button--primary',
-        secondary: 'app-button--secondary',
-        destructive: 'app-button--destructive',
-        ghost: 'app-button--ghost',
-        icon: 'app-button--icon',
-        compact: 'app-button--compact',
+        primary: styles.primary,
+        secondary: styles.secondary,
+        destructive: styles.destructive,
+        ghost: styles.ghost,
+        icon: styles.icon,
+        compact: styles.compact,
       },
     },
     defaultVariants: { variant: 'primary' },

@@ -1,0 +1,50 @@
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  width: 100%;
+  height: var(--control-height);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-control);
+  padding: 0 var(--space-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.content {
+  z-index: 60;
+  min-width: var(--radix-select-trigger-width);
+  max-height: min(22rem, var(--radix-select-content-available-height));
+  overflow: hidden;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-raised);
+  box-shadow: var(--shadow-popover);
+}
+
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  min-height: var(--control-height);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  user-select: none;
+}
+
+.item[data-highlighted] {
+  outline: none;
+  background: var(--color-hover);
+}
+
+.item[data-state='checked'] {
+  background: var(--color-selected);
+  font-weight: 650;
+}

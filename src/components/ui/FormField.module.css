@@ -1,0 +1,17 @@
+.field {
+  display: grid;
+  min-width: 0;
+  gap: var(--space-xs);
+}
+
+.label {
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 650;
+}
+
+.inline {
+  grid-template-columns: auto 5.25rem;
+  align-items: center;
+  gap: var(--space-sm);
+}
