@@ -26,7 +26,8 @@ test('searches, filters, sorts, and clears the load board', async ({ page }) => 
 
 test('supports pagination, keyboard focus, and persisted settings', async ({ page }) => {
   await page.getByRole('button', { name: 'Next page' }).click();
-  await expect(page.getByText('Page 2 of 2')).toBeVisible();
+  await expect(page.getByRole('textbox', { name: 'Page' })).toHaveValue('2');
+  await expect(page.getByText('of 2')).toBeVisible();
 
   await page.keyboard.press('Control+k');
   await expect(page.getByRole('searchbox', { name: 'Search loads' })).toBeFocused();

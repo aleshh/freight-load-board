@@ -30,6 +30,15 @@ Install the Playwright browser once before the first end-to-end run:
 npx playwright install chromium
 ```
 
+## Automatic checks
+
+`npm install` configures local Git hooks for the project:
+
+- Before commit: run the Vitest unit and integration suite.
+- Before push: create a production build and run the Playwright end-to-end suite.
+
+These hooks provide fast local feedback; continuous integration should remain the authoritative check.
+
 ## Project structure
 
 - `src/app` — application shell and providers

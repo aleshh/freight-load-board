@@ -23,3 +23,11 @@ Since performance is a priority with this system, I wanted to see how it functio
 We have the proper semantic markup, including labels, fieldsets, and live announcements for results counts, page changes, etc.
 
 Tested with keyboard-only navigation. Not tested with a screen reader; however, we have provided screen-reader landmarks and other features to make the application navigable.
+
+### Testing
+
+Our test suite has three layers:
+
+- Unit tests verify isolated logic such as filtering, URL state, theme behavior, and large-dataset integrity.
+- Integration tests render React components and simulate user behavior—for example pagination, settings, keyboard navigation, and filter interactions.
+- Playwright end-to-end tests exercise the complete application in Chromium and include automated accessibility checks with axe.
