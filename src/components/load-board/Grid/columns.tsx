@@ -57,6 +57,7 @@ export const loadColumnDefinitions: ColDef<Load>[] = [
   {
     colId: 'ratePerMile',
     headerName: 'Rate / mi',
+    hide: true,
     flex: 0.85,
     minWidth: 110,
     type: 'numericColumn',
