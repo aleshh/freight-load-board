@@ -1,0 +1,38 @@
+.modeControl {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-top: var(--space-sm);
+  margin-bottom: var(--space-xs);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+}
+
+.modeButtons {
+  display: inline-flex;
+  overflow: hidden;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-control);
+}
+
+.modeButtons button {
+  min-height: var(--control-height-compact);
+  border: 0;
+  padding: 0 var(--space-md);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+}
+
+.modeButtons button + button {
+  border-left: var(--border-width) solid var(--color-border);
+}
+
+.modeButtons button[aria-pressed='true'] {
+  background: var(--color-selected);
+  color: var(--color-text);
+}

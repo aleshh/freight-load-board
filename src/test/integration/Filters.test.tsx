@@ -44,6 +44,12 @@ describe('Filters', () => {
     await user.click(trigger);
 
     expect(screen.getByText('Changes apply automatically. Press Escape to close.')).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Origin' })).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Destination' })).toBeVisible();
+    await user.click(screen.getByRole('button', { name: 'Origin' }));
+    expect(screen.getByRole('group', { name: 'Filter origin by' })).toBeVisible();
+    expect(screen.getByRole('button', { name: 'City' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'State' })).toHaveAttribute('aria-pressed', 'false');
     await user.click(screen.getByRole('button', { name: 'Close filters' }));
     expect(screen.queryByRole('region', { name: 'Refine loads' })).not.toBeInTheDocument();
     expect(trigger).toHaveFocus();

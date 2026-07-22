@@ -15,8 +15,10 @@ interface ActiveFiltersProps {
 
 const labels: Record<keyof LoadFilters, string> = {
   company: 'Company',
-  origin: 'Origin',
-  destination: 'Destination',
+  origin: 'Origin city',
+  originState: 'Origin state',
+  destination: 'Destination city',
+  destinationState: 'Destination state',
   equipmentType: 'Equipment',
   status: 'Status',
   date: 'Date',

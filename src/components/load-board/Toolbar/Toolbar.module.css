@@ -25,6 +25,10 @@
   transform: translateY(-50%);
 }
 
+.filterLabel {
+  white-space: nowrap;
+}
+
 @media (max-width: 48rem) {
   .shortcut,
   .filterLabel {

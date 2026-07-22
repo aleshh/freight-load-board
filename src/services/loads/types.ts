@@ -10,7 +10,9 @@ export interface LoadSort {
 export interface LoadFilters {
   company?: string[];
   origin?: string[];
+  originState?: string[];
   destination?: string[];
+  destinationState?: string[];
   equipmentType?: EquipmentType[];
   status?: LoadStatus[];
   date?: string;
@@ -38,7 +40,9 @@ export interface LoadResult {
 export interface LoadFilterOptions {
   companies: string[];
   origins: string[];
+  originStates: string[];
   destinations: string[];
+  destinationStates: string[];
   equipmentTypes: EquipmentType[];
   statuses: LoadStatus[];
 }

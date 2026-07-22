@@ -1,4 +1,5 @@
 import mockLoads from '../../data/mockLoads.json';
+import { parseLocation } from '../../lib/locations';
 import { getRatePerMile, type Load } from '../../types/load';
 import type { LoadService } from './loadService';
 import type { LoadFilters, LoadQuery, LoadResult, SortableLoadField } from './types';
@@ -30,10 +31,14 @@ function includesSearch(load: Load, search?: string) {
 }
 
 function matchesFilters(load: Load, filters: LoadFilters = {}) {
+  const originState = parseLocation(load.origin).state;
+  const destinationState = parseLocation(load.destination).state;
   return (
     (!filters.company?.length || filters.company.includes(load.company)) &&
     (!filters.origin?.length || filters.origin.includes(load.origin)) &&
+    (!filters.originState?.length || (originState !== undefined && filters.originState.includes(originState))) &&
     (!filters.destination?.length || filters.destination.includes(load.destination)) &&
+    (!filters.destinationState?.length || (destinationState !== undefined && filters.destinationState.includes(destinationState))) &&
     (!filters.equipmentType?.length || filters.equipmentType.includes(load.equipmentType)) &&
     (!filters.status?.length || filters.status.includes(load.status)) &&
     (!filters.date || load.date === filters.date) &&
@@ -86,7 +91,15 @@ export function createMockLoadService(data: Load[] = mockLoads as Load[], latenc
       return {
         companies: uniqueSorted(data.map((load) => load.company)),
         origins: uniqueSorted(data.map((load) => load.origin)),
+        originStates: uniqueSorted(data.flatMap((load) => {
+          const state = parseLocation(load.origin).state;
+          return state ? [state] : [];
+        })),
         destinations: uniqueSorted(data.map((load) => load.destination)),
+        destinationStates: uniqueSorted(data.flatMap((load) => {
+          const state = parseLocation(load.destination).state;
+          return state ? [state] : [];
+        })),
         equipmentTypes: uniqueSorted(data.map((load) => load.equipmentType)),
         statuses: uniqueSorted(data.map((load) => load.status)),
       };

@@ -4,6 +4,7 @@ import type { LoadFilterOptions, LoadFilters as LoadFilterState } from '../../..
 import { Button } from '../../ui/Button/Button';
 import { Input } from '../../ui/Input/Input';
 import { MultiSelect } from '../../ui/MultiSelect/MultiSelect';
+import { LocationFilter } from '../LocationFilter/LocationFilter';
 import styles from './Filters.module.css';
 
 interface FiltersProps {
@@ -69,21 +70,23 @@ export function Filters({ filters, options, onChange, onClose, open }: FiltersPr
           allLabel="All companies"
           searchable
         />
-        <MultiSelect
+        <LocationFilter
           label="Origin"
-          values={filters.origin}
-          options={toOptions(options?.origins)}
-          onValuesChange={(origin) => onChange({ origin })}
-          allLabel="All origins"
-          searchable
+          cityValues={filters.origin}
+          stateValues={filters.originState}
+          cities={options?.origins}
+          states={options?.originStates}
+          onCityValuesChange={(origin) => onChange({ origin })}
+          onStateValuesChange={(originState) => onChange({ originState })}
         />
-        <MultiSelect
+        <LocationFilter
           label="Destination"
-          values={filters.destination}
-          options={toOptions(options?.destinations)}
-          onValuesChange={(destination) => onChange({ destination })}
-          allLabel="All destinations"
-          searchable
+          cityValues={filters.destination}
+          stateValues={filters.destinationState}
+          cities={options?.destinations}
+          states={options?.destinationStates}
+          onCityValuesChange={(destination) => onChange({ destination })}
+          onStateValuesChange={(destinationState) => onChange({ destinationState })}
         />
         <MultiSelect
           label="Equipment"

@@ -55,7 +55,13 @@
 .actions {
   justify-content: space-between;
   gap: var(--space-sm);
-  margin: var(--space-xs) 0;
+  margin: 0;
+}
+
+.actions button {
+  min-height: var(--control-height-compact);
+  padding-right: var(--space-sm);
+  padding-left: var(--space-sm);
 }
 
 .search {

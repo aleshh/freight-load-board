@@ -1,5 +1,5 @@
 import { Check, ChevronDown, Search, X } from 'lucide-react';
-import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { cn } from '../../../lib/utils';
 import { Button } from '../Button/Button';
 import fieldStyles from '../shared/FormField.module.css';
@@ -17,6 +17,7 @@ interface MultiSelectProps<T extends string = string> {
   onValuesChange: (values: T[] | undefined) => void;
   allLabel?: string;
   searchable?: boolean;
+  panelControls?: ReactNode;
   disabled?: boolean;
   className?: string;
 }
@@ -28,6 +29,7 @@ export function MultiSelect<T extends string>({
   onValuesChange,
   allLabel = 'All',
   searchable = false,
+  panelControls,
   disabled,
   className,
 }: MultiSelectProps<T>) {
@@ -43,7 +45,9 @@ export function MultiSelect<T extends string>({
   const searchRef = useRef<HTMLInputElement>(null);
   const optionsRef = useRef<HTMLDivElement>(null);
   const selectedValues = useMemo(() => new Set(values), [values]);
-  const filteredOptions = options.filter((option) => option.label.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase()));
+  const controlLabel = label;
+  const effectiveSearch = searchable ? search : '';
+  const filteredOptions = options.filter((option) => option.label.toLocaleLowerCase().includes(effectiveSearch.trim().toLocaleLowerCase()));
   const summary = values.length === 0
     ? allLabel
     : values.length === 1
@@ -103,7 +107,9 @@ export function MultiSelect<T extends string>({
     };
     document.addEventListener('pointerdown', handlePointerDown);
     return () => document.removeEventListener('pointerdown', handlePointerDown);
-  }, [open, searchable]);
+  }, [open]);
+
+  useEffect(() => setSearch(''), [searchable]);
 
   const toggleValue = (value: T, checked: boolean) => {
     const next = checked ? [...values, value] : values.filter((selected) => selected !== value);
@@ -117,7 +123,7 @@ export function MultiSelect<T extends string>({
         ref={triggerRef}
         type="button"
         className={styles.trigger}
-        aria-labelledby={labelId}
+        aria-label={controlLabel}
         aria-describedby={summaryId}
         aria-haspopup="dialog"
         aria-expanded={open}
@@ -135,7 +141,7 @@ export function MultiSelect<T extends string>({
           className={styles.panel}
           style={panelStyle}
           role="dialog"
-          aria-labelledby={labelId}
+          aria-label={controlLabel}
           onKeyDown={(event) => {
             if (event.key !== 'Escape') return;
             event.preventDefault();
@@ -145,20 +151,22 @@ export function MultiSelect<T extends string>({
         >
           <div className={styles.panelHeader}>
             <strong>{label}</strong>
-            <Button variant="icon" aria-label={`Close ${label} options`} onClick={() => close()}>
+            <Button variant="icon" aria-label={`Close ${controlLabel} options`} onClick={() => close()}>
               <X size={17} aria-hidden="true" />
             </Button>
           </div>
 
+          {panelControls}
+
           {searchable ? (
             <label className={styles.search}>
-              <span className="sr-only">Search {label} options</span>
+              <span className="sr-only">Search {controlLabel} options</span>
               <Search size={16} aria-hidden="true" />
               <input
                 ref={searchRef}
                 type="search"
                 value={search}
-                placeholder={`Search ${label.toLocaleLowerCase()}…`}
+                placeholder={`Search ${controlLabel.toLocaleLowerCase()}…`}
                 onChange={(event) => setSearch(event.target.value)}
               />
             </label>
@@ -169,7 +177,7 @@ export function MultiSelect<T extends string>({
             <Button variant="ghost" disabled={values.length === 0} onClick={() => onValuesChange(undefined)}>Clear</Button>
           </div>
 
-          <div ref={optionsRef} className={styles.options} role="group" aria-label={`${label} options`}>
+          <div ref={optionsRef} className={styles.options} role="group" aria-label={`${controlLabel} options`}>
             {filteredOptions.map((option) => (
               <label className={styles.option} key={option.value}>
                 <input

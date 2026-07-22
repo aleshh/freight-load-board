@@ -14,7 +14,9 @@ const numericFilterKeys = [
 const categoricalFilterNames = {
   company: 'company',
   origin: 'origin',
+  originState: 'originState',
   destination: 'destination',
+  destinationState: 'destinationState',
   equipmentType: 'equipment',
   status: 'status',
 } as const;
@@ -41,10 +43,14 @@ function values(searchParams: URLSearchParams, name: string) {
 }
 
 export function parseLoadQuery(searchParams: URLSearchParams): LoadQuery {
+  const originState = values(searchParams, 'originState');
+  const destinationState = values(searchParams, 'destinationState');
   const filters: LoadFilters = {
     company: values(searchParams, 'company'),
-    origin: values(searchParams, 'origin'),
-    destination: values(searchParams, 'destination'),
+    origin: originState ? undefined : values(searchParams, 'origin'),
+    originState,
+    destination: destinationState ? undefined : values(searchParams, 'destination'),
+    destinationState,
     equipmentType: values(searchParams, 'equipment') as EquipmentType[] | undefined,
     status: values(searchParams, 'status') as LoadStatus[] | undefined,
     date: searchParams.get('date') || undefined,

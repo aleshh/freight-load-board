@@ -32,6 +32,15 @@ describe('queryLoads', () => {
     expect(result.items.map((load) => load.id)).toEqual(['LD-1', 'LD-3']);
   });
 
+  it('filters origin and destination by state abbreviation', () => {
+    const result = queryLoads(loads, {
+      filters: { originState: ['CO', 'ID'], destinationState: ['CO', 'NE'] },
+      page: 1,
+      pageSize: 25,
+    });
+    expect(result.items.map((load) => load.id)).toEqual(['LD-1', 'LD-3']);
+  });
+
   it('supports multi-column server-shaped sorting', () => {
     const result = queryLoads(loads, {
       sort: [
