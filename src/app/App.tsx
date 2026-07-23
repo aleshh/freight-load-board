@@ -9,7 +9,7 @@ export default function App() {
   return (
     <div className={styles.shell}>
       <header className={styles.header}>
-        <a className={styles.brand} href="/" aria-label="Freightboard home">
+        <a className={styles.brand} href={import.meta.env.BASE_URL} aria-label="Freightboard home">
           <span className={styles.brandMark} aria-hidden="true"><Truck size={21} /></span>
           <span className={styles.brandLabel}>Freightboard</span>
         </a>
